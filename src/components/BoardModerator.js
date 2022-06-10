@@ -5,8 +5,6 @@ import img from '../images/pin.png'
 import axios from 'axios';
 import eventBus from '../common/EventBus';
 
-const API_URL = "http://localhost:5001/api/point/";
-
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ViaWxheWNrbWsiLCJhIjoiY2w0NjNvdmZvMDRzYTNqbHJ3enJ4b29mYSJ9.R8rk-T-yUlMh2bjNp1EBew';
 
 const BoardModerator = () => {
@@ -61,7 +59,7 @@ const BoardModerator = () => {
   }, [])
 
   const getPoint = () => {
-    return axios.get(API_URL).then(
+    return axios.get(process.env.REACT_APP_API_URL + "/api/point/").then(
       (response) => {
         createPinModel(response.data.points)
       }

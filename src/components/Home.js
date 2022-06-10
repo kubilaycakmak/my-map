@@ -5,7 +5,6 @@ import axios from 'axios';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ViaWxheWNrbWsiLCJhIjoiY2w0NjNvdmZvMDRzYTNqbHJ3enJ4b29mYSJ9.R8rk-T-yUlMh2bjNp1EBew';
 
-const API_URL = "http://localhost:5001/api/point/";
 
 
 const Home = () => {
@@ -36,7 +35,7 @@ const Home = () => {
   }, []);
 
   const getPoint = () => {
-    return axios.get(API_URL).then(
+    return axios.get(process.env.REACT_APP_API_URL + "/api/point/").then(
       (response) => {
         createPinModel(response.data.points)
       }

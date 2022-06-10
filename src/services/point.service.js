@@ -1,9 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5001/api/point/";
 
 const setPoint = (title, lng, lat) => {
-  return axios.post(API_URL, {
+  return axios.post(process.env.REACT_APP_API_URL + '/api/point/', {
     title,
     lng,
     lat,
@@ -11,7 +10,7 @@ const setPoint = (title, lng, lat) => {
 };
 
 const getPoint = () => {
-    return axios.get(API_URL).then(
+    return axios.get(process.env.REACT_APP_API_URL + '/api/point/').then(
       (response) => {
         if (response.data.points.lenght != 0) {
           localStorage.setItem("point", JSON.stringify(response.data.points));

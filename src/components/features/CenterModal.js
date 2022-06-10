@@ -3,7 +3,6 @@ import { Modal, Button, InputGroup,FormControl  } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 import eventBus from '../../common/EventBus';
 import axios from 'axios'
-const API_URL = "http://localhost:5001/api/point/";
 
 function CenterModal(props) {
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -26,7 +25,7 @@ function CenterModal(props) {
     }
 
     const setPoint = (title, lng, lat, author) => {
-      return axios.post(API_URL, {
+      return axios.post(process.env.REACT_APP_API_URL + '/api/point/', {
         title,
         lng,
         lat,
