@@ -9,5 +9,17 @@ export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 // Point
 export const POINT_SET_SUCCESS = "POINT_SET_SUCCESS";
+export const POINT_SET_FAIL = "POINT_SET_FAIL";
 export const POINT_GET_SUCCESS = "POINT_GET_SUCCESS";
-export const POINT_FAIL = "POINT_FAIL";
+export const POINT_GET_FAIL = "POINT_GET_FAIL";
+export const POINT_RESET_SUCCESS = "POINT_RESET_SUCCESS";
+export const POINT_RESET_FAIL = "POINT_RESET_FAIL";
+//RESET
+
+export const RESET_SUCCESS = "RESET_SUCCESS"
+export const RESET_FAIL = "RESET_FAIL";
+
+//FORGOT
+
+export const FORGOT_SUCCESS = "FORGOT_SUCCESS";
+export const FORGOT_FAIL = "FORGOT_FAIL";

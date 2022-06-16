@@ -1,13 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import '../App.css';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import { login, logout } from "../actions/auth";
-
+import { forgot } from "../actions/auth";
 
 const required = (value) => {
   if (!value) {
@@ -19,15 +18,14 @@ const required = (value) => {
   }
 };
 
-const Login = (props) => {
+const Forgot = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { isLoggedIn } = useSelector(state => state.auth);
+//   const { isLoggedIn } = useSelector(state => state.auth);
   const { message } = useSelector(state => state.message);
 
   const dispatch = useDispatch();
@@ -37,10 +35,6 @@ const Login = (props) => {
     setEmail(email);
   };
 
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -50,22 +44,19 @@ const Login = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(login(email, password))
+        dispatch(forgot(email))
         .then(() => {
-          props.history.push("/profile");
-          window.location.reload();
+            props.history.push("/forget-success");
+            window.location.reload();
         })
         .catch(() => {
-          setLoading(false);
-        });
+            setLoading(false);
+        });    
+     
     } else {
       setLoading(false);
     }
   };
-
-  if (isLoggedIn) {
-    return <Redirect to="/profile" />;
-  }
 
   return (
     <div className="col-md-12 page">
@@ -84,30 +75,13 @@ const Login = (props) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Input
-              type="password"
-              className="form-control"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              validations={[required]}
-            />
-          </div>
-
-          <div className="form-group">
             <button className="btn btn-dark btn-block" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
-              <span>Login</span>
+              <span>Submit</span>
             </button>
           </div>
-
-          <div className="form-group">
-            <NavLink to={"/forget"} >Forget Password</NavLink>
-          </div>
-
 
           {message && (
             <div className="form-group">
@@ -123,4 +97,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default Forgot;

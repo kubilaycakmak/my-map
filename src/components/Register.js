@@ -52,6 +52,7 @@ const Register = () => {
   const form = useRef();
   const checkBtn = useRef();
 
+  const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,6 +75,10 @@ const Register = () => {
     const password = e.target.value;
     setPassword(password);
   };
+  const onChangeFullName = (e) => {
+    const fullName = e.target.value;
+    setFullName(fullName);
+  };
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -83,7 +88,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(username, email, password))
+      dispatch(register(fullName, username, email, password, "mod"))
         .then(() => {
           setSuccessful(true);
         })
@@ -100,6 +105,16 @@ const Register = () => {
         <Form onSubmit={handleRegister} ref={form} className="form">
           {!successful && (
             <div>
+              <div className="form-group">
+                <label htmlFor="username">Full Name</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="username"
+                  value={fullName}
+                  onChange={onChangeFullName}
+                />
+              </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <Input

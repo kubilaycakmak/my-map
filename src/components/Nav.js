@@ -10,7 +10,6 @@ import { history } from "../helpers/history";
 const Nav = (props) => {
 
     const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-    const [showAdminBoard, setShowAdminBoard] = useState(false);
     const { user: currentUser } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
   
@@ -25,14 +24,14 @@ const Nav = (props) => {
     }, [dispatch]);
   
     useEffect(() => {
-      if (currentUser) {
-        setShowModeratorBoard(true);
-        setShowAdminBoard(true);
-      } else {
-        setShowModeratorBoard(false);
-        setShowAdminBoard(false);
+      if(currentUser){
+        if (currentUser.type == 'mod') {
+          setShowModeratorBoard(true);
+        } else {
+          setShowModeratorBoard(false);
+        }
       }
-  
+      
       EventBus.on("logout", () => {
         logOut();
       });
@@ -44,12 +43,6 @@ const Nav = (props) => {
 
     return <nav className="navbar navbar-expand navbar-dark bg-dark sidebar-nav">
         <div className="navbar-nav mr-auto">
-        <li className="nav-item">
-            <NavLink to={"/home"} className="nav-link" activeClassName='is-active'>
-            Map
-            </NavLink>
-        </li>
-
         {showModeratorBoard && (
             <li className="nav-item">
             <NavLink to={"/mod"} className="nav-link" activeClassName='is-active'>

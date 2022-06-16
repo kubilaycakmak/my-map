@@ -149,3 +149,11 @@ html, .container, body{
 .is-active{
   color: white !important;
 }
+
+.test{
+  margin-top: 84px;
+  padding: 32px 24px 24px 32px;
+  background: white !important;
+  border-radius: 12px;
+  height: 900px;
+}

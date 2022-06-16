@@ -13,7 +13,7 @@ const Profile = () => {
     <div className="container profile">
       <header className="jumbotron">
         <h3>
-          <strong>{currentUser.username}</strong> Profile
+          <strong>{currentUser.fullName}</strong>`s Profile
         </h3>
       </header>
       <p>
@@ -26,11 +26,9 @@ const Profile = () => {
       <p>
         <strong>Email:</strong> {currentUser.email}
       </p>
-      <strong>Authorities:</strong>
-      <ul>
-        {currentUser.roles &&
-          currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-      </ul>
+      <strong>User Type: </strong>
+        {currentUser.type &&
+          currentUser.type}
     </div>
   );
 };
