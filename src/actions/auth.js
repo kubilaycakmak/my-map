@@ -10,7 +10,7 @@ import {
     FORGOT_SUCCESS,
     FORGOT_FAIL
   } from "./types";
-  
+
 import AuthService from "../services/auth.service";
   
 export const register = (fullName, username, email, password, type) => (dispatch) => {
@@ -150,4 +150,75 @@ export const logout = () => (dispatch) => {
     dispatch({
         type: LOGOUT,
     });
+};
+
+export const googleLogin = (token) => (dispatch) => {
+  return AuthService.googleLogin(token).then(
+      (data) => {
+      dispatch({
+          type: LOGIN_SUCCESS,
+          payload: { user: data },
+      });
+
+      return Promise.resolve();
+      },
+      (error) => {
+      const message =
+          (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+      dispatch({
+          type: LOGIN_FAIL,
+      });
+
+      dispatch({
+          type: SET_MESSAGE,
+          payload: message,
+      });
+
+      return Promise.reject();
+      }
+  );
+};
+
+export const GoogleRegister = (token, type) => (dispatch) => {
+  
+  return AuthService.googleRegister(token, type).then(
+    (data) => {
+      dispatch({
+        type: REGISTER_SUCCESS,
+      });
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: { user: data },
+      });
+
+      window.location.reload();
+
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch({
+        type: REGISTER_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+
+      return Promise.reject();
+    }
+  );
 };

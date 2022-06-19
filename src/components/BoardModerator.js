@@ -5,13 +5,12 @@ import img from '../images/pin.png'
 import eventBus from '../common/EventBus';
 import { getPoint } from '../actions/point'
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from "react-router-dom";
 
-
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ViaWxheWNrbWsiLCJhIjoiY2w0NjNvdmZvMDRzYTNqbHJ3enJ4b29mYSJ9.R8rk-T-yUlMh2bjNp1EBew';
 
 const BoardModerator = () => {
-  const location = useLocation();
 
   const [modalShow, setModalShow] = React.useState(false);
   const mapContainer = useRef(null);

@@ -5,6 +5,7 @@ import '../App.css';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import Google from './button/google/googleLogin.js'
 
 import { login, logout } from "../actions/auth";
 
@@ -105,8 +106,16 @@ const Login = (props) => {
           </div>
 
           <div className="form-group">
+            <Google />
+          </div>
+
+          <div className="form-group">
             <NavLink to={"/forget"} >Forget Password</NavLink>
           </div>
+          <div className="form-group">
+            <NavLink to={"/register"} >Sign up</NavLink>
+          </div>
+
 
 
           {message && (
@@ -118,7 +127,9 @@ const Login = (props) => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
+        
       </div>
+      
     </div>
   );
 };

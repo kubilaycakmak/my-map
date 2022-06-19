@@ -24,6 +24,32 @@ const login = (email, password) => {
     });
 };
 
+const googleLogin = (token) => {
+  return axios
+    .post(process.env.REACT_APP_API_URL + "/api/auth/google-signin", {
+      token
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      return response.data;
+    });
+};
+
+const googleRegister = (token, type) => {
+  return axios
+    .post(process.env.REACT_APP_API_URL + "/api/auth/google-signup", {
+      token, type
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      return response.data;
+    });
+};
+
 const reset = (password, id) => {
   return axios
     .post(process.env.REACT_APP_API_URL + "/api/auth/reset", {
@@ -54,5 +80,7 @@ export default {
   login,
   logout,
   reset,
-  forget
+  forget,
+  googleLogin,
+  googleRegister
 };

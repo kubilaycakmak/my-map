@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { NavLink, Redirect } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-
+import Google from './button/google/googleRegister.js'
 import { register } from "../actions/auth";
 
 const required = (value) => {
@@ -51,6 +51,8 @@ const vpassword = (value) => {
 const Register = () => {
   const form = useRef();
   const checkBtn = useRef();
+  
+  const { isLoggedIn } = useSelector(state => state.auth);
 
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
@@ -97,6 +99,10 @@ const Register = () => {
         });
     }
   };
+
+  if (isLoggedIn) {
+    return <Redirect to="/profile" />;
+  }
 
   return (
     <div className="col-md-12 page">
@@ -153,6 +159,14 @@ const Register = () => {
 
               <div className="form-group">
                 <button className="btn btn-dark btn-block">Sign Up</button>
+              </div>
+              
+              <div className="form-group">
+                <Google />
+              </div>
+
+              <div className="form-group">
+                <NavLink to={"/login"} >Sign in</NavLink>
               </div>
             </div>
           )}

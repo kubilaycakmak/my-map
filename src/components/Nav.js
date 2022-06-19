@@ -4,6 +4,7 @@ import { logout } from "../actions/auth";
 import { clearMessage } from "../actions/message";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { googleLogout } from '@react-oauth/google';
 
 import { history } from "../helpers/history";
 
@@ -34,6 +35,7 @@ const Nav = (props) => {
       
       EventBus.on("logout", () => {
         logOut();
+        googleLogout();
       });
   
       return () => {
