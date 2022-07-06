@@ -2,7 +2,6 @@ import axios from "axios";
 import authHeader from './auth-header';
 
 const setPoint = (title, lng, lat, author, type, limit) => {
-  console.log(authHeader());
   return axios.post(process.env.REACT_APP_API_URL + '/api/point/', {
     title,
     lng,
@@ -11,8 +10,30 @@ const setPoint = (title, lng, lat, author, type, limit) => {
     type,
     limit
   }, { headers: authHeader() }).then((response) => {
-    if(response.data.points){
-    }
+    return response.data.points
+  });
+};
+
+const setNFTPoint = (title, lng, lat, author, type, limit, author_wallet,
+  token_id,
+  contract_type,
+  description,
+  image,
+  token_address) => {
+  return axios.post(process.env.REACT_APP_API_URL + '/api/point/nft/', {
+    title,
+    lng,
+    lat,
+    author,
+    type,
+    limit,
+    author_wallet,
+    token_id,
+    contract_type,
+    description,
+    image,
+    token_address
+  }, { headers: authHeader() }).then((response) => {
     return response.data.points
   });
 };
@@ -23,6 +44,22 @@ const getPoint = () => {
         return response.data.points
       }
     );
+};
+
+const getNFTPoint = () => {
+  return axios.get(process.env.REACT_APP_API_URL + '/api/point/nft', { headers: authHeader() }).then(
+    (response) => {
+      return response.data.points
+    }
+  );
+};
+
+const getOwnNFTPoint = (username) => {
+  return axios.get(process.env.REACT_APP_API_URL + `/api/point/ownnft?author=${username}`, { headers: authHeader() }).then(
+    (response) => {
+      return response.data.points
+    }
+  );
 };
 
 const resetPoint = () => {
@@ -36,5 +73,8 @@ const resetPoint = () => {
 export default {
   setPoint,
   getPoint,
-  resetPoint
+  resetPoint,
+  setNFTPoint,
+  getNFTPoint,
+  getOwnNFTPoint
 };

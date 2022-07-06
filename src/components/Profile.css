@@ -1,0 +1,9 @@
+.profile{
+    border: 1px solid black;
+    position: relative;
+    margin: 84px auto !important; 
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    height: auto !important;
+}

@@ -3,40 +3,86 @@ import mapboxgl from 'mapbox-gl';
 import CenterModal from './features/CenterModal'
 import img from '../images/pin.png'
 import eventBus from '../common/EventBus';
-import { getPoint } from '../actions/point'
+import { getNFTPoint, getPoint } from '../actions/point'
 import { useDispatch, useSelector } from 'react-redux';
-
+import useContextMenu from "contextmenu";
+import "contextmenu/ContextMenu.css";
+import SideProfile from './SideProfile.js';
+import { me } from '../actions/user';
+import { setNFTPoint } from '../actions/point';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3ViaWxheWNrbWsiLCJhIjoiY2w0NjNvdmZvMDRzYTNqbHJ3enJ4b29mYSJ9.R8rk-T-yUlMh2bjNp1EBew';
 
 const BoardModerator = () => {
 
+  const [title, setTitle] = useState("");
+  // const [nftData, setNFTData] = useState({});
+
+  const menuConfig = {
+    'Create NFT': () => {
+      console.log('create nft');
+      console.log(lng);
+      console.log(lat);
+      setTitle("nft")
+      setModalShow(true);
+    },
+    'Create Music': () => {
+      console.log('create music');
+      setTitle("music")
+      setModalShow(true);
+    },
+    'Create Gift': () => {
+      console.log('create gift');
+      setTitle("gift")
+      setModalShow(true);
+    },
+    // 'Submenu': {
+    //   'Submenu 1': () => {
+    //     console.log('wololol')
+    //   },
+    //   'Submenu 2': {
+    //     'electric': () => {
+    //       console.log('wololol')
+    //     },
+    //     'boogaloo': () => {
+    //       console.log('boogaloo')
+    //     }, 
+    //   },
+    // },
+  };
+
   const [modalShow, setModalShow] = React.useState(false);
+  const [nftData, setNFTData] = useState(null);
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-123.1193);
   const [lat, setLat] = useState(49.2827);
   const [zoom, setZoom] = useState(15.5);
   const { point: currentPoints } = useSelector((state) => state.point);
+  const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [contextMenu, useCM] = useContextMenu();
+
+  let count = 1;
 
   useEffect(() => {
     if(map.current){
-      console.log('map loaded');
-      if(currentPoints) createPinModel(currentPoints);
-      
+      if(currentPoints){
+        createPinModel(currentPoints);
+        // document.getElementById('features').innerHTML = JSON.stringify(currentPoints, null, 2);
+      } 
     }else{
-      console.log('map unloaded');
       dispatch(getPoint())
-      if(currentPoints) createPinModel(currentPoints);
+      // dispatch(getNFTPoint())
+      if(currentPoints) {
+        createPinModel(currentPoints);
+        // document.getElementById('features').innerHTML = JSON.stringify(currentPoints, null, 2);
+      }
+      
     }
-    // // console.log(document.getElementsByClassName('marker').length);
-    //   if(currentPoints && document.getElementsByClassName('marker').length == 0) {
-    //     createPinModel(currentPoints);
-    //   }
-  })
-  
+  }, [currentPoints])
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -48,36 +94,93 @@ const BoardModerator = () => {
       bearing: -17.6,
       antialias: true
     });
+    map.current.getCanvas().style.cursor = 'default';
 
-    map.current.on('click', (e) => {
-      
+    map.current.on('mousedown', (e) => {
       setLng(e.lngLat.lng)
       setLat(e.lngLat.lat)
-      const features = map.current.queryRenderedFeatures(e.point);
- 
-      const displayProperties = ['type','properties','id'];
+    });
+
+    map.current.on('click', 'places', (e) => {
+      setLng(e.lngLat.lng)
+      setLat(e.lngLat.lat)
       
-      const displayFeatures = features.map((feat) => {
-      const displayFeat = {};
-
-      if(displayFeat?.properties?.type != 'service:alley'){
-        setModalShow(true)
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = e.features[0].properties.description;
+      
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
-      displayProperties.forEach((prop) => {
-        displayFeat[prop] = feat[prop];
-      });
-        return displayFeat;
-      });
+      
+      new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(description)
+      .addTo(map);
 
-      document.getElementById('features').innerHTML = JSON.stringify(displayFeatures,null,2);
+    });
+
+    map.current.on('mouseenter', 'places', () => {
+      map.current.getCanvas().style.cursor = 'pointer';
+      });
+       
+      // Change it back to a pointer when it leaves.
+    map.current.on('mouseleave', 'places', () => {
+      map.current.getCanvas().style.cursor = '';
     });
   })
 
+  useEffect(() => {
+    console.log('============');
+    console.log('once?');
+    dispatch(me());
+  }, [])
+
+  useEffect(() => {
+
+    eventBus.on("nftData", (data) => {
+      console.log(data);
+      if(data){
+
+        map.current.on('mousedown', (e) => {
+          setLng(e.lngLat.lng)
+          setLat(e.lngLat.lat)
+          if(data){
+            dispatch(setNFTPoint(
+              data.name, 
+              e.lngLat.lat, 
+              e.lngLat.lng, 
+              currentUser.fullName, 
+              "NFT",
+              100, 
+              currentUser.walletAddress, 
+              data.token_id, 
+              data.contract_type,
+              data.description, 
+              data.image, 
+              data.token_address
+            ));
+            eventBus.dispatch("nftDataOFF", true);
+          }
+        });
+        
+      }
+    })
+
+   
+  
+  }, [count])
+  
+
   const createPinModel = (arr) => {
     arr.forEach(element => {
+      console.log("elements", element.image);
+
         const el = document.createElement('div');
         el.className = 'marker';
-        el.style.backgroundImage = `url(${img})`;
+        el.style.backgroundImage = element.isNFT ? `url(${element.nft.image})` : `url(${img})`;
         el.style.width = `50px`;
         el.style.height = `50px`;
         el.style.backgroundSize = '100%';
@@ -107,14 +210,18 @@ const BoardModerator = () => {
   }
 
   return (
-    <div className="">
-      <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+    <>
+      <div className="" onContextMenu={useCM(menuConfig)}>
+        <div className="sidebar">
+          Longitude: {lng} | Latitude: {lat}
+        </div>
+        <div ref={mapContainer} className="map-container" />
+        {/* <pre id="features"></pre> */}
+        <CenterModal show={modalShow} onHide={() => handleHide()} location={[lng, lat]} title={title}/>
+        {contextMenu}
       </div>
-      <div ref={mapContainer} className="map-container" />
-      <pre id="features"></pre>
-      <CenterModal show={modalShow} onHide={() => handleHide()} location={[lng, lat]}/>
-    </div>
+      <SideProfile />
+    </>
   );
 };
 

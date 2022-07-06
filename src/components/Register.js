@@ -51,13 +51,14 @@ const vpassword = (value) => {
 const Register = () => {
   const form = useRef();
   const checkBtn = useRef();
-  
+
   const { isLoggedIn } = useSelector(state => state.auth);
 
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector(state => state.message);
@@ -67,6 +68,11 @@ const Register = () => {
     const username = e.target.value;
     setUsername(username);
   };
+
+  const onChangeWalletAddress = (e) => {
+    const walletAddress = e.target.value;
+    setWalletAddress(walletAddress);
+  }
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
@@ -90,7 +96,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(fullName, username, email, password, "mod"))
+      dispatch(register(fullName, username, email, password, "mod", walletAddress))
         .then(() => {
           setSuccessful(true);
         })
@@ -158,9 +164,20 @@ const Register = () => {
               </div>
 
               <div className="form-group">
+                <label htmlFor="email">Wallet Address</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  value={walletAddress}
+                  onChange={onChangeWalletAddress}
+                />
+              </div>
+
+              <div className="form-group">
                 <button className="btn btn-dark btn-block">Sign Up</button>
               </div>
-              
+
               <div className="form-group">
                 <Google />
               </div>
@@ -173,7 +190,7 @@ const Register = () => {
 
           {message && (
             <div className="form-group no-margin">
-              <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">
+              <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
                 {message}
               </div>
               <div className="form-group">

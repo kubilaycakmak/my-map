@@ -4,7 +4,9 @@ import {
   POINT_SET_FAIL,
   POINT_GET_FAIL,
   POINT_RESET_SUCCESS,
-  POINT_RESET_FAIL
+  POINT_RESET_FAIL,
+  OWN_NFT_POINT_GET_SUCCESS,
+  OWN_NFT_POINT_GET_FAIL
   } from "../actions/types";
   
   // const points = JSON.parse(localStorage.getItem("point"));
@@ -44,6 +46,15 @@ import {
         return {
           ...state,
           isAnyPoint: false,
+        };
+      case OWN_NFT_POINT_GET_SUCCESS: 
+        return{
+          ...state,
+          own_points: payload.point,
+        };
+      case OWN_NFT_POINT_GET_FAIL:
+        return{
+          ...state,
         };
       default:
         return state;

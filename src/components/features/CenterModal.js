@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Button, InputGroup,FormControl } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import { setPoint } from '../../actions/point'
@@ -33,7 +33,7 @@ function CenterModal(props) {
     return (
       <Modal {...props}>
         <Modal.Header closeButton>
-          <Modal.Title>Create new point</Modal.Title>
+          <Modal.Title>{props.title} Create new point</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <InputGroup className="mb-3">

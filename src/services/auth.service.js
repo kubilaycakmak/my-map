@@ -1,12 +1,13 @@
 import axios from "axios";
 
-const register = (fullName, username, email, password, type) => {
+const register = (fullName, username, email, password, type, walletAddress) => {
   return axios.post(process.env.REACT_APP_API_URL + "/api/auth/signup", {
     fullName,
     username,
     email,
     password,
-    type
+    type,
+    walletAddress
   });
 };
 
@@ -17,10 +18,14 @@ const login = (email, password) => {
       password,
     })
     .then((response) => {
+      let user = response.data.user;
+
       if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        user.accessToken = response.data.accessToken;
+        user.refreshToken = response.data.refreshToken;
+        localStorage.setItem("user", JSON.stringify(user));
       }
-      return response.data;
+      return user;
     });
 };
 
@@ -30,10 +35,14 @@ const googleLogin = (token) => {
       token
     })
     .then((response) => {
+      let user = response.data.user;
+
       if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        user.accessToken = response.data.accessToken;
+        user.refreshToken = response.data.refreshToken;
+        localStorage.setItem("user", JSON.stringify(user));
       }
-      return response.data;
+      return user;
     });
 };
 
@@ -43,10 +52,14 @@ const googleRegister = (token, type) => {
       token, type
     })
     .then((response) => {
+      let user = response.data.user;
+
       if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        user.accessToken = response.data.accessToken;
+        user.refreshToken = response.data.refreshToken;
+        localStorage.setItem("user", JSON.stringify(user));
       }
-      return response.data;
+      return user;
     });
 };
 
@@ -75,6 +88,23 @@ const logout = () => {
   localStorage.removeItem("user");
 };
 
+const refreshAuth = (token) => {
+  return axios.post(process.env.REACT_APP_API_URL + "/api/auth/refreshToken/", {
+    token
+  })
+  .then((response) => {
+    let user = response.data.user;
+
+    if (response.data.accessToken) {
+      user.accessToken = response.data.accessToken;
+      user.refreshToken = response.data.refreshToken;
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+    
+    return user;
+  })
+}
+
 export default {
   register,
   login,
@@ -82,5 +112,6 @@ export default {
   reset,
   forget,
   googleLogin,
-  googleRegister
+  googleRegister,
+  refreshAuth
 };

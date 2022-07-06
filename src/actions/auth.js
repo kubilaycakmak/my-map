@@ -8,13 +8,16 @@ import {
     RESET_FAIL,
     SET_MESSAGE,
     FORGOT_SUCCESS,
-    FORGOT_FAIL
+    FORGOT_FAIL,
+    REFRESH_SUCCESS,
+    REFRESH_FAIL
   } from "./types";
 
 import AuthService from "../services/auth.service";
+import { accessToken } from "mapbox-gl";
   
-export const register = (fullName, username, email, password, type) => (dispatch) => {
-    return AuthService.register(fullName, username, email, password, type).then(
+export const register = (fullName, username, email, password, type, walletAddress) => (dispatch) => {
+    return AuthService.register(fullName, username, email, password, type, walletAddress).then(
       (response) => {
         dispatch({
           type: REGISTER_SUCCESS,
@@ -80,6 +83,38 @@ export const login = (email, password) => (dispatch) => {
         }
     );
 };
+
+export const refreshAuth = (refreshToken) => (dispatch) => {
+  return AuthService.refreshAuth(refreshToken).then(
+    (data) => {
+    dispatch({
+        type: REFRESH_SUCCESS,
+        payload: { user: data },
+    });
+
+    return Promise.resolve();
+    },
+    (error) => {
+    const message =
+        (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+    dispatch({
+        type: REFRESH_FAIL,
+    });
+
+    dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+    });
+
+    return Promise.reject();
+    }
+);
+}
 
 export const reset = (password, id) => (dispatch) => {
   return AuthService.reset(password, id).then(
