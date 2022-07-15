@@ -12,7 +12,7 @@ import { me } from '../actions/user';
 import { setNFTPoint } from '../actions/point';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
-mapboxgl.accessToken = 'pk.eyJ1Ijoia3ViaWxheWNrbWsiLCJhIjoiY2w0NjNvdmZvMDRzYTNqbHJ3enJ4b29mYSJ9.R8rk-T-yUlMh2bjNp1EBew';
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const BoardModerator = () => {
 
@@ -193,10 +193,11 @@ const BoardModerator = () => {
           new mapboxgl.Popup({ offset: 45 }) // add popups
             .setHTML(
               `<div className="popup-modal">
-                <h3>${element.title}</h3>
+                ${element.isNFT ? (`<img style="width: 120px; height:120px" src=${element.nft.image} />`) : ""}  
+                <h4>${element.title}</h4>
                 <p>Author: ${element.author}</p>
                 <p>Type: ${element.type}</p>
-                <p>Limit: ${element.limit}</p>
+                ${element.isNFT ? (`<p>People: <b>${element.white_list.length}</b></p>`) : ""}  
               </div>`
             )
         )

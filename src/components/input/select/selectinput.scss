@@ -1,0 +1,15 @@
+.rainbow-p-horizontal_medium{
+    width: 328px;
+    height: 48px;
+    margin-bottom: 32px;
+    label{
+        align-self: flex-start;
+    }
+    select{
+        border: 1px solid #686868 !important;
+        border-radius: 3px !important;
+        span{
+            display: none !important;
+        }
+    }
+}

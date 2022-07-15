@@ -1,0 +1,49 @@
+.bottomNavigation{
+    
+    box-sizing: border-box;
+    position: fixed;
+
+    width: calc(100% - 298px);
+    height: 80px;
+    left: 298px;
+    bottom: 0px;
+    /* White */
+
+    background: #FFFFFF;
+    /* Gray2 */
+    border-top: 1px solid #F2F2F2;
+    padding-left: 88px;
+    padding-top: 16px;
+}
+
+.bottomNavigationOuter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 668px;
+
+    a{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height */
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        /* Error/Red */
+
+        color: #E31111;
+
+
+        /* Inside auto layout */
+
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+    }
+}

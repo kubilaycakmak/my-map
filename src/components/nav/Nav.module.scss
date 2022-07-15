@@ -1,0 +1,15 @@
+nav{
+    background-color: white;
+    border-bottom: 1px solid #F2F2F2;
+    height: 64px;
+    padding: 0 32px !important;
+    li{
+        a{
+            color: black !important;
+            &:active{
+                color: black !important;
+            }
+        }
+    }
+    
+}

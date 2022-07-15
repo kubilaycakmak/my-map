@@ -1,0 +1,40 @@
+.bar{
+    min-width: 298px;
+    height: 959px;
+    background: #FCFCFD;
+    padding: 32px;
+}
+
+.steps{
+    div{
+        margin: 40px 0;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height */
+        
+        display: flex;
+        align-items: center;
+        
+        /* Text/Dark */
+        
+        color: #3C3C3C;
+        
+        
+        /* Inside auto layout */
+        
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+    }
+}
+
+.active{
+    
+}
+
+.disable{
+    opacity: .5;
+}

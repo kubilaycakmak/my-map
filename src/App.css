@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.scrollable{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -20,14 +9,13 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 94vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
@@ -44,18 +32,19 @@
 }
 
 .map-container {
-  height: 100vh;
+  height: 94.5vh;
   width: 100% !important;
 }
-
+/* 
 .sidebar {
-  background-color: rgba(35, 55, 75, 0.9);
-  color: #fff;
+  border-radius: 12px;
+  background-color: rgba(214, 214, 214, 0.474);
+  color: rgb(0, 0, 0);
   padding: 6px 12px;
   font-family: monospace;
   z-index: 1;
   position: absolute;
-  top: 64px;
+  bottom: 12px;
   left: 0;
   margin: 12px;
   border-radius: 4px;
@@ -63,7 +52,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .sidebar-nav {
   background-color: rgba(35, 55, 75, 0.9) !important;
@@ -76,7 +65,6 @@
   left: 0;
   margin: 12px;
   border-radius: 4px;
-  /* border: 1px solid black; */
 }
 .nav-item{
   margin: 0 8px;
@@ -88,10 +76,6 @@
   max-width: 600px;
   min-width: 400px;
   width: 100%;
-}
-
-html, .container, body{
-  background: #343A40 !important;
 }
 
 .page{
@@ -109,16 +93,17 @@ html, .container, body{
 }
 
 .profile{
-
   /* border: 1px solid black; */
   margin-top: 84px;
   padding: 32px 24px 24px 32px;
   background: white !important;
   border-radius: 12px;
 }
+
 #map canvas {
   cursor: default;
 }
+
 #features {
   position: absolute;
   right: 0;
@@ -143,13 +128,13 @@ html, .container, body{
 .mapboxgl-popup{
   width: 140px !important;
 }
+
 .mapboxgl-popup-tip{
   font-size: 24px;
 }
+
 .mapboxgl-popup-content{
   font-size: 16px;
-}
-.mapboxgl-popup-close-button{
 }
 
 .is-active{
@@ -162,4 +147,29 @@ html, .container, body{
   background: white !important;
   border-radius: 12px;
   height: 900px;
+}
+
+.login-button{
+  padding: 12px 32px !important;
+  width: auto;
+  height: 48px;
+  background: #2F80ED;
+  border-radius: 5px;
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #FFFFFF !important;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.register-button{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: red !important;
 }

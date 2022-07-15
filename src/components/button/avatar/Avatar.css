@@ -1,0 +1,53 @@
+.dropdown-toggle{
+    padding: 8px 12px 8px 4px !important;
+    gap: 8px !important;
+    width: auto !important;
+    height: 48px !important;
+
+    background: #F7F7F7 !important;
+    border-radius: 100px !important;
+
+    color: black !important;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.avatar{
+    width: 43px;
+    height: 43px;
+    border-radius: 30%;
+}
+
+.avatar-img{
+    width: 43px !important;
+    height: 43px !important;
+    background-size: cover !important;
+    border-radius: 50%;
+}
+
+.avatar-name{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    /* Text/Dark */
+
+    color: #3C3C3C;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}

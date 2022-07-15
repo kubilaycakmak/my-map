@@ -8,7 +8,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import BoardModerator from "./components/BoardModerator";
-import Nav from './components/Nav'
+import Nav from './components/nav/Nav'
 import { history } from "./helpers/history";
 import Test from './components/Test.js'
 import { useDispatch, useSelector } from "react-redux";
@@ -16,16 +16,23 @@ import { getNFTPoint, getPoint } from "./actions/point";
 import Reset from './components/Reset'
 import Forget from './components/Forgot';
 import ForgetSuccess from "./components/ForgetSuccess";
+import Event from './pages/Event'
+import CreateEvent from "./pages/CreateEvent";
+import EventSuccess from "./pages/EventStatus/EventSuccess";
+import EventFailed from "./pages/EventStatus/EventFailed";
+import Wallet from "./pages/Wallet";
+import Status from "./pages/Status";
+import Setting from "./pages/Setting";
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
-  useEffect(() => {
-    // if(currentUser)
-      // dispatch(getPoint())
-      // dispatch(getNFTPoint())
-  }, [currentUser]);
+
+  // useEffect(() => {
+  //   // if(currentUser)
+  //     // dispatch(getPoint())
+  //     // dispatch(getNFTPoint())
+  // }, [currentUser]);
 
   return (
     <Router history={history}>
@@ -36,10 +43,17 @@ const App = () => {
             <Route exact path={["/", "/login"]} component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
-            <Route path="/mod" component={BoardModerator} />
-            <Route path='/reset' component={Reset} />
-            <Route path='/forget' component={Forget} />
-            <Route path='/forget-success' component={ForgetSuccess} />
+            <Route exact path="/event" component={Event} />
+            <Route exact path="/create-event" component={CreateEvent} />
+            <Route exact path="/create-event-success" component={EventSuccess} />
+            <Route exact path="/create-event-fail" component={EventFailed} />
+            {/* <Route path="/mod" component={BoardModerator} /> */}
+            <Route exact path='/wallet' component={Wallet} />
+            <Route exact path='/status' component={Status} />
+            <Route exact path='/setting' component={Setting} />
+            <Route exact path='/reset' component={Reset} />
+            <Route exact path='/forget' component={Forget} />
+            <Route exact path='/forget-success' component={ForgetSuccess} />
           </Switch>
         </div>
       </div>

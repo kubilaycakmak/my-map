@@ -1,0 +1,42 @@
+#geocoder {
+    z-index: 1;
+    // margin: 20px;
+    min-width: 100%;
+    border: 1px solid #686868 !important;
+    border-radius: 3px !important;
+
+}
+.mapboxgl-ctrl-geocoder {
+    min-width: 100% !important;;
+}
+.mapboxgl-ctrl{
+    min-width: 100% !important;;
+}
+
+.mapboxgl-ctrl-geocoder--input{
+    width: 100% !important;
+}
+.geocoder-outer{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    margin-top: 24px;
+    height: 452px;
+}
+
+.map{
+    width: 668px;
+    height: 360px;
+    position: absolute; top: 0; bottom: 0; width: 100%;
+}
+
+.mapboxgl-map{
+    width: 668px;
+    height: 100%;
+    margin-top: 32px;
+}
+.mapboxgl-ctrl-top-right{
+    display: none;
+}
+

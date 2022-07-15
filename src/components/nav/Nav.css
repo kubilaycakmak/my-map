@@ -1,0 +1,19 @@
+.logo{
+    font-family: 'Poppins';
+    src: local('Poppins-Regular'), url(../../../public/assets/font/Poppins-Regular.ttf) format('ttf');
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    /* Blue2 */
+
+    color: #006DFF;
+}

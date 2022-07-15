@@ -1,0 +1,70 @@
+.rewardCard{
+    width: 966px;
+    height: 309px;
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: row;
+
+    
+}
+.rewardCardImage{
+    width: 455px;
+    height: 308px;
+    border-radius: 0 !important;
+}
+.rewardCardBody{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 24px 24px 40px;
+    h3{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        color: #3C3C3C;
+        font-size: 28px;
+    }
+    h4{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        color: #686868;
+        font-size: 20px;
+    }
+    p{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        color: #686868;
+    }
+}
+.rewardCardFooter{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+
+    span{
+        width: auto;
+        height: auto;
+
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height */
+        color: #FFFFFF;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+
+        background: #219653;
+        border-radius: 3px;
+        padding: 2px 8px;
+    }
+}

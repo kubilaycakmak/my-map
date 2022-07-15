@@ -1,0 +1,31 @@
+.th{
+    padding: 16px 32px !important;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 122.5%;
+    /* or 17px */
+    color: #3C3C3C;
+    border: none !important;
+    border-radius: 5px !important;
+}
+.thead{
+    background: #F2F2F2;
+    border-radius: 5px;
+    border-radius: 5px !important;
+}
+
+.tr{
+    border: none !important;
+}
+
+.table{
+    border: none !important;
+    border-radius: 5px !important;
+}
+
+td{
+    border: none !important;
+    height: 100%;
+}

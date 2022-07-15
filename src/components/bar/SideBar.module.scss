@@ -1,0 +1,26 @@
+.sidebar{
+    position: relative;
+    min-width: 64px;
+    max-width: 64px;
+    height: calc(100vh - 64px);
+
+    background: #FCFCFD;
+    /* Gray2 */
+    border-right: 1px solid #F2F2F2;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    img{
+        padding: 0 !important;
+        margin-bottom: 72px;
+        width: 48px;
+        height: 48px;
+        &:first-child{
+            margin-top: 80px;
+        }
+    }
+}
