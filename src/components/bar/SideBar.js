@@ -15,6 +15,7 @@ function SideBar() {
         <img onClick={() => history.push("/status")} src={pathname == "/status" ? require("../../images/status-active.png") : require("../../images/status.png")}/>
         <img onClick={() => history.push("/wallet")} src={pathname == "/wallet" ? require("../../images/wallet-active.png") : require("../../images/wallet.png")}/>
         <img onClick={() => history.push("/setting")} src={pathname == "/setting" ? require("../../images/setting-active.png") : require("../../images/setting.png")}/>
+        <img onClick={() => history.push("/mod")} src={pathname == "/mod" ? require("../../images/map-active.png") : require("../../images/map.png")}/>
     </div>
   )
 }

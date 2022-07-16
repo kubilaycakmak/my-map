@@ -6,7 +6,7 @@ import './SideProfile.css'
 import { Tabs, Tab, Button, Table } from 'react-bootstrap';
 import { useMoralisWeb3Api, useWeb3Transfer } from "react-moralis";
 import NFTCard from "./NFTCard";
-import { getOwnNFTPoint } from "../actions/point";
+import { getOwnEventPoint } from "../actions/point";
 import NFTTable from "./table/NFTTable";
 
 const SideProfile = () => {
@@ -56,7 +56,7 @@ const SideProfile = () => {
 
   
   const fetchOwnNFTMetadata = async () => {
-    dispatch(getOwnNFTPoint(currentUser.username));
+    dispatch(getOwnEventPoint(currentUser.username));
   }
 
   if (!currentUser) {

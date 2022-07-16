@@ -5,8 +5,8 @@ import '../App.css';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import Google from './button/google/googleLogin.js'
-
+import Google from '../components/button/google/googleLogin.js'
+import styles from './styles/login.module.scss'
 import { login, logout } from "../actions/auth";
 
 
@@ -53,7 +53,7 @@ const Login = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(email, password))
         .then(() => {
-          props.history.push("/profile");
+          props.history.push("/event");
           window.location.reload();
         })
         .catch(() => {
@@ -65,12 +65,13 @@ const Login = (props) => {
   };
 
   if (isLoggedIn) {
-    return <Redirect to="/profile" />;
+    return <Redirect to="/event" />;
   }
 
   return (
-    <div className="col-md-12 page">
-      <div className="card card-container">
+    <div className={styles.login}>
+      <img className={styles.logo} src={require('../images/logowname.png')} />
+      <div className={styles.loginOuter}>
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
             <label htmlFor="username">Email</label>

@@ -5,7 +5,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-import Google from './button/google/googleRegister.js'
+import Google from '../components/button/google/googleRegister.js'
 import { register } from "../actions/auth";
 
 const required = (value) => {

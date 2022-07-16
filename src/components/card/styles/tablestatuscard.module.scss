@@ -9,15 +9,37 @@
     display: flex;
     align-items: center;
 
-    /* Text/Dark */
-
     color: #3C3C3C;
-
-
-    /* Inside auto layout */
 
     flex: none;
     order: 1;
     flex-grow: 0;
     text-transform: capitalize;
+    span{
+        margin-right: 8px;
+    }
+}
+
+.actived{
+    height: 8px;
+    width: 8px;
+    background-color: #219653;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.inactived{
+    height: 8px;
+    width: 8px;
+    background-color: #F2C94C;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.draft{
+    height: 8px;
+    width: 8px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    display: inline-block;
 }

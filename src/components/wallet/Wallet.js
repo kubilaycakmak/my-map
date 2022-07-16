@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Metamask from '../meta/Metamask'
+import NFTTable from './NFTTable'
 import styles from './wallet.module.scss'
 
-const Wallet = ({walletAddress = "1BoatSLRHtKNngkdXEeobR76b53LETtpyT"}) => {
+const Wallet = ({ onChangeValue }) => {
+
+  const [wallet, setWallet] = useState();
+
+  const getWalletAddress = (data) => {
+    setWallet(data);
+  }
+
   return (
-    <div className={styles.wallet}>
-        <img className={styles.walletImage} src={require('./metamask.png')} />
-        <div className={styles.walletBody}>
-            <div className={styles.walletName}>Metamask Wallet</div>
-            <div className={styles.walletAddress}>{walletAddress}</div>
-        </div>
-    </div>
+    <>
+      <h3>Select Wallet</h3>
+      <div className={styles.wallet}>
+        <Metamask onChangeHandler={getWalletAddress} />
+      </div>
+      <h3>Select NFTs</h3>
+       {wallet ? <NFTTable callback={onChangeValue} wallet={wallet} /> : ""}
+    </>
+    
   )
 }
 

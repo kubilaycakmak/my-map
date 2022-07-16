@@ -4,15 +4,19 @@ import './dateinput.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
-const DateInput = ({label}) => {
+const DateInput = ({label, getDate}) => {
     const [value, setValue] = useState({
-        date: new Date('2019-10-25 10:44'),
-        locale: { name: 'en-US', label: 'English (US)' },
+        date: new Date('2019-10-25 10:44')
     });
     
     const containerStyles = {
         maxWidth: 400,
     };
+
+    const getDateFromInput = (value) => {
+        getDate(value)
+        setValue({date: value})
+    }
 
   return (
     <div
@@ -21,9 +25,9 @@ const DateInput = ({label}) => {
         >
             <DatePicker
                 value={value.date}
-                onChange={value => setValue({ date: value })}
+                onChange={getDateFromInput}
                 label={label}
-                locale={value.locale.name}
+                locale={"en-US"}
                 icon={<FontAwesomeIcon icon={faCalendar} />}
             />
         </div>

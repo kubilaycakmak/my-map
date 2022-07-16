@@ -1,8 +1,9 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
 import styles from './fileupload.module.scss'
-function FileUplod() {
+function FileUplod({ dataFromFileDrop }) {
   const onDrop = useCallback(acceptedFiles => {
+    dataFromFileDrop(acceptedFiles)
     // Do something with the files
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})

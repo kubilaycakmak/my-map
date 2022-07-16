@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TimePicker } from 'react-rainbow-components';
 import './timeinput.scss'
-const TimeInput = ({label}) => {
+const TimeInput = ({label, getHour}) => {
 
     const [value, setValue] = useState({
         time: "13:32",
@@ -10,6 +10,11 @@ const TimeInput = ({label}) => {
     const containerStyles = {
         maxWidth: 400,
     };
+
+    const getHourFromInput = (value) => {
+        getHour(value);
+        setValue({ time: value })
+    }
 
   return (
     <div
@@ -20,7 +25,7 @@ const TimeInput = ({label}) => {
                 id="time-picker-1"
                 value={value.time}
                 label={label}
-                onChange={value => setValue({ time: value })}
+                onChange={getHourFromInput}
                 style={containerStyles}
                 className="rainbow-m-vertical_x-large rainbow-p-horizontal_medium rainbow-m_auto"
             />

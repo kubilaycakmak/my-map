@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './defaultinput.module.scss'
-const DefaultInput = ({ label, placeholder, type, disable }) => {
+const DefaultInput = ({ label, placeholder, type, disable, onChangeValue }) => {
+
+  const [data, setData] = useState("");
+
   return (
     <div className={styles.inputOuter}>
         <label htmlFor="custom-input">{label}</label>
 
         {type == "description" ? 
-        <textarea  name="custom-input" placeholder={placeholder}></textarea>
+        <textarea onChange={onChangeValue} name="custom-input" placeholder={placeholder} disable={disable}></textarea>
             :
-        <input disabled={disable} name="custom-input" placeholder={placeholder}></input>
+        <input onChange={onChangeValue} disabled={disable} name="custom-input" placeholder={placeholder}></input>
         }
         
 

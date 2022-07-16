@@ -4,8 +4,8 @@ import { Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Profile from "./components/Profile";
 import BoardModerator from "./components/BoardModerator";
 import Nav from './components/nav/Nav'
@@ -47,7 +47,7 @@ const App = () => {
             <Route exact path="/create-event" component={CreateEvent} />
             <Route exact path="/create-event-success" component={EventSuccess} />
             <Route exact path="/create-event-fail" component={EventFailed} />
-            {/* <Route path="/mod" component={BoardModerator} /> */}
+            <Route path="/mod" component={BoardModerator} />
             <Route exact path='/wallet' component={Wallet} />
             <Route exact path='/status' component={Status} />
             <Route exact path='/setting' component={Setting} />

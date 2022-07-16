@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setWalletAddress } from '../../actions/user';
 import './Metamask.css';
+import styles from '../wallet/wallet.module.scss'
 
-
-
-const Metamask = () => {
+const Metamask = ({ onChangeHandler }) => {
   // set states to hold wallet account details
-  const [userAccount, setUserAccount] = useState()
+  const [userAccount, setUserAccount] = useState(null);
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -17,6 +16,11 @@ const Metamask = () => {
     eth = window.ethereum
   }
 
+  window.ethereum.on('accountsChanged', async (metamask = eth) => {
+      setUserAccount(metamask[0])
+      onChangeHandler(metamask[0])
+  });
+
   const connectWallet =  async (metamask = eth)=>{
     try {
       // check if metamask is installed
@@ -24,11 +28,14 @@ const Metamask = () => {
         return alert('please install metamask to proceed')
       }
       // access the account
-      const acc = await metamask.request({method:'eth_requestAccounts'})
+      const acc = await metamask.request({ method: 'wallet_requestPermissions',
+      params: [{
+        eth_accounts: {},
+      }]})
       setUserAccount(acc[0])
-      dispatch(setWalletAddress(currentUser.email, acc[0]));
-      console.log('look here');
-      window.location.reload()
+      onChangeHandler(acc[0])
+      // dispatch(setWalletAddress(currentUser.email, acc[0]));
+      // window.location.reload()
     } catch (error) {
       console.log(error);
       throw new Error('No ethereum object found')
@@ -44,11 +51,21 @@ const Metamask = () => {
       const acc = await metamask.request({method: 'eth_accounts'})
       if (acc.length){
         setUserAccount(acc[0])
+        onChangeHandler(acc[0])
       }
     } catch (error) {
       console.log(error);
       throw new Error('No Ethereum object')
     }
+  }
+
+  const removeWalletConnect = async (metamask =eth) => {
+    await window.ethereum.request({
+      method: 'wallet_requestPermissions',
+      params: [{
+        eth_accounts: {},
+      }]
+    });
   }
 
   useEffect(()=>{
@@ -57,15 +74,16 @@ const Metamask = () => {
 
   return (
     <>
-      <div className='wrapper'>
-        {/* <img src={img} alt="" /> */}
-        <div className="connect">
-          {
-            userAccount ? <div className='text-connect'>
-              <span>{userAccount.substring(0, 5)}...{userAccount.substring(userAccount.length - 5)} </span> 
-            </div>  : <button className='btn' onClick={() => connectWallet()}>connect wallet</button>
-          }
-        </div>  
+      <img className={styles.walletImage} src={require('../wallet/metamask.png')} />
+        <div className={styles.walletBody}>
+            <div className={styles.walletName}>Metamask Wallet</div>
+            { userAccount ? 
+            <div className={styles.walletConnect}>
+              <div className={styles.walletAddress}>{userAccount}</div>
+              <button className={styles.changeButton} onClick={() => removeWalletConnect()}>Change wallet</button>
+            </div>
+              : <button href='#' className={styles.connectButton} onClick={() => connectWallet()}>Connect your wallet</button>
+            }
       </div>
     </>
   )

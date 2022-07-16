@@ -54,8 +54,8 @@ const getNFTPoint = () => {
   );
 };
 
-const getOwnNFTPoint = (username) => {
-  return axios.get(process.env.REACT_APP_API_URL + `/api/point/ownnft?author=${username}`, { headers: authHeader() }).then(
+const getOwnEventPoint = (username) => {
+  return axios.get(process.env.REACT_APP_API_URL + `/api/point/own-event?author=${username}`, { headers: authHeader() }).then(
     (response) => {
       return response.data.points
     }
@@ -76,5 +76,5 @@ export default {
   resetPoint,
   setNFTPoint,
   getNFTPoint,
-  getOwnNFTPoint
+  getOwnEventPoint
 };

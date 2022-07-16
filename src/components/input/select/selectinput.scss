@@ -6,6 +6,9 @@
         align-self: flex-start;
     }
     select{
+        option{
+            border: 1px solid black !important;
+        }
         border: 1px solid #686868 !important;
         border-radius: 3px !important;
         span{

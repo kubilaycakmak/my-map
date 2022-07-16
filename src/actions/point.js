@@ -146,8 +146,8 @@ export const getNFTPoint = () => (dispatch) => {
     );
 };
 
-export const getOwnNFTPoint = (username) => (dispatch) => {
-    return PointService.getOwnNFTPoint(username).then(
+export const getOwnEventPoint = (username) => (dispatch) => {
+    return PointService.getOwnEventPoint(username).then(
         (data) => {
         dispatch({
             type: OWN_NFT_POINT_GET_SUCCESS,

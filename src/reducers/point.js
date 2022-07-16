@@ -11,7 +11,7 @@ import {
   
   // const points = JSON.parse(localStorage.getItem("point"));
   
-  const initialState = [];
+  const initialState = {};
   
   export default function (state = initialState, action) {
     const { type, payload } = action;
@@ -49,8 +49,7 @@ import {
         };
       case OWN_NFT_POINT_GET_SUCCESS: 
         return{
-          ...state,
-          own_points: payload.point,
+          point: payload.point,
         };
       case OWN_NFT_POINT_GET_FAIL:
         return{

@@ -8,24 +8,29 @@
     /* or 17px */
     color: #3C3C3C;
     border: none !important;
-    border-radius: 5px !important;
+    // border-radius: 5px !important;
 }
 .thead{
     background: #F2F2F2;
-    border-radius: 5px;
-    border-radius: 5px !important;
+    &:first-child{
+        border-radius: 5px !important;
+    }
 }
-
 .tr{
     border: none !important;
 }
-
 .table{
     border: none !important;
-    border-radius: 5px !important;
 }
-
 td{
+    vertical-align:middle !important;
     border: none !important;
     height: 100%;
+    padding-left: 24px !important;
+    &:first-child{
+        padding-left: 32px !important;
+    }
+}
+
+.tdContent{
 }

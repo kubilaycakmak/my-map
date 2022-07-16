@@ -1,0 +1,36 @@
+#geocoder{
+
+}
+.coordinateInformations{
+    // border: 1px solid black;
+    width: auto;
+    position: absolute;
+    left: 72px;
+    bottom: 48px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 12px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    color: #686868;
+    border-radius: 8px;
+    p{
+        margin-bottom: 0 !important;
+    }
+
+}
+.map{
+    position: absolute !important;
+    left: 64px !important;
+    top: 32px !important;
+    width: calc(100vw - 64px) !important;
+    // height: 100%;
+    height: calc(100% - 64px)!important;
+}

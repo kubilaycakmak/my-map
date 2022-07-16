@@ -7,7 +7,6 @@ import TableCreatedAtCard from '../card/TableCreatedAtCard'
 import TableStatusCard from '../card/TableStatusCard'
 
 const EventTable = ({ events }) => {
-  console.log(events);
   return (
     <Table className={styles.table}>
       <thead className={styles.thead}>
@@ -24,10 +23,10 @@ const EventTable = ({ events }) => {
           events.map((item, index) => {
             return (
               <tr key={index} className={styles.tr}>
-                <td><TableBodyCard month={item.event_date.split(',')[1].split(" ")[1]} day={item.event_date.split(',')[1].split(" ")[2]} img={item.image} name={item.name} date={item.event_date} address={item.address}/></td>
-                <td><TableRewardsCard type={item.type}/></td>
-                <td><TableCreatedAtCard date={item.event_create_at}/></td>
-                <td><TableStatusCard status={item.status}/></td>
+                <td className={styles.tdContent}><TableBodyCard img={item.detail.image} name={item.title} date={item.startDateTS} address={item.address}/></td>
+                <td className={styles.tdContent}><TableRewardsCard type={item.type}/></td>
+                <td className={styles.tdContent}><TableCreatedAtCard date={item.createdAt}/></td>
+                <td className={styles.tdContent}><TableStatusCard status={item.status}/></td>
                 <td>..</td>
               </tr>
             )

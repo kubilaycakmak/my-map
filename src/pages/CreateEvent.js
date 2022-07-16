@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import moment from 'moment';
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 import EventBottomNavigation from '../components/bar/EventBottomNavigation'
 import EventDetailsBar from '../components/bar/EventDetailsBar'
 import CustomButtonLight from '../components/button/CustomButtonLight'
@@ -7,20 +9,23 @@ import RewardsPreviewCard from '../components/card/RewardsPreviewCard'
 import DateInput from '../components/input/date/DateInput'
 import DefaultInput from '../components/input/DefaultInput'
 import FileUplod from '../components/input/FileUplod'
-import SearchAddressInput from '../components/input/SearchAddressInput'
 import SearchAddressInputWithMap from '../components/input/SearchAddressInputWithMap'
 import SelectInput from '../components/input/select/SelectInput'
 import TimeInput from '../components/input/time/TimeInput'
 import Wallet from '../components/wallet/Wallet'
-import EventFailed from './EventStatus/EventFailed'
-import EventSuccess from './EventStatus/EventSuccess'
 import styles from './styles/createevent.module.scss'
+import axios from 'axios'
+import queryString from 'query-string';
 
-const CreateEvent = ({ fullName="Kubilay Cakmak" }) => {
+const CreateEvent = () => {
 
+  let history = useHistory();
+  const [isLocationSelected, setIsLocationSelected] = useState(false);
+  const { user: currentUser } = useSelector((state) => state.auth);
   const [step, setStep] = useState(0);
   const [isSuccess, setIsSuccess] = useState(true);
   const [option, setOption] = useState("Custom Location");
+
   const callback = (step) => {
     setStep(step)
     console.log(step);
@@ -29,6 +34,108 @@ const CreateEvent = ({ fullName="Kubilay Cakmak" }) => {
     setOption(option)
     console.log(option);
   }
+
+  useEffect(() => {
+    
+    if(history.location.search){
+      const parsed = queryString.parse(history.location.search);
+      console.log(parsed);
+      setIsLocationSelected(true);
+      mapClickFn(parsed)
+    }
+  }, [])
+  
+
+  const [title, setTitle] = useState();
+  const [description, setDescription] = useState();
+  const [eventImage, setEventImage] = useState();
+  const [address, setAddress] = useState();
+  const [lat, setLat] = useState();
+  const [lng, setLng] = useState();
+  const [type, setType] = useState("Promo");
+  const [startDateTS, setStartDateTS] = useState();
+  const [endDateTS, setEndDateTS] = useState();
+  const [limit, setLimit] = useState();
+  const [nft, setNFT] = useState();
+  const [rewardUrl, setRewardUrl] = useState();
+  const [websiteUrl, setWebsiteUrl] = useState();
+  const [cover, setCover] = useState();
+  const [rewardDescription, setRewardDescription] = useState();
+  const [data, setData] = useState({});
+
+  const mapClickFn = async (coordinates) => {
+    const url =
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+      coordinates.lng +
+      "," +
+      coordinates.lat +
+      ".json?access_token=" +
+      "pk.eyJ1Ijoia3ViaWxheWNrbWsiLCJhIjoiY2w0NjNvdmZvMDRzYTNqbHJ3enJ4b29mYSJ9.R8rk-T-yUlMh2bjNp1EBew" +
+      "&types=address";
+    await axios.get(url).then((res) => {
+      const { features } = res.data;
+      if(features.length != 0){
+        console.log(features[0].place_name);
+        setAddress(features[0].place_name);
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+  }
+
+  const handleChangeName = (event) => {
+    setTitle(event.target.value)
+  }
+  const handleChangeDescription = (event) => {
+    setDescription(event.target.value);
+  }
+  const handleChangeEventImage = (data) => {
+    setEventImage(data);
+  }
+  const handleChangeAddress = (data) => {
+    setAddress(data);
+  }
+  const handleChangeLatLng = (data) => {
+    setLat(data.lat);
+    setLng(data.lng)
+  }
+  const handleChangeStartDate = (data) => {
+    console.log(data);
+  }
+  const handleChangeEndDate = (data) => {
+    console.log(data);
+  }
+  const handleChangeEndHour = (data) => {
+    console.log(data);
+  } 
+  const handleChangeStartHour = (data) => {
+    console.log(data);
+  }
+  const handleChangeType = (data) => {
+    setType(data.target.value);
+  }
+  const handleChangeLimit = (data) => {
+    setLimit(data.target.value)
+  }
+  const handleChangeNFT = (data) => {
+    console.log(data);
+    setNFT(data);
+  }
+  const handleChangeRewardUrl = (data) => {
+    setRewardUrl(data.target.value)
+  }
+  const handleChangeWebsiteUrl = (data) => {
+    setWebsiteUrl(data.target.value)
+  }
+  const handleChangeCoverImage = (data) => {
+    console.log(data);
+    setCover(data);
+  }
+  const handleGiveawayDescription = (data) => {
+    setRewardDescription(data.target.value);
+  }
+  
+
   return (
     <div className={styles.event}>
       <EventDetailsBar step={step}/>
@@ -43,15 +150,15 @@ const CreateEvent = ({ fullName="Kubilay Cakmak" }) => {
                 <h3>Basic Info</h3>
                 <p>Add details about your event to make it stand out.</p>
                 <div className={styles.form}>
-                    <DefaultInput placeholder="Name your event here" label="Event name"/>
-                    <DefaultInput disable placeholder={fullName} label="Organizer"/>
-                    <DefaultInput type="description" placeholder="Write a brief summary about your event to get your attendees excited." label="Description"/>
+                    <DefaultInput onChangeValue={handleChangeName} placeholder="Name your event here" label="Event name"/>
+                    <DefaultInput disable={true} placeholder={currentUser.fullName} label="Organizer"/>
+                    <DefaultInput onChangeValue={handleChangeDescription} type="description" placeholder="Write a brief summary about your event to get your attendees excited." label="Description"/>
                     <div className={styles.divider}></div>
                 </div>
                 <h3>Event Image (Optional)</h3>
                 <p>This image will appear next to your listing. Use a high quality image (size x size).</p>
                 <div className={styles.form}>
-                    <FileUplod />
+                    <FileUplod dataFromFileDrop={handleChangeEventImage} />
                 </div>
             </div>
         </div>
@@ -73,17 +180,25 @@ const CreateEvent = ({ fullName="Kubilay Cakmak" }) => {
                   {option == "Custom Location" 
                   ? 
                   <>
-                    <SearchAddressInputWithMap />
-                    <h3 style={{marginTop: "48px"}}>Date and Time</h3>
+                    
+                    {isLocationSelected ? 
+                    <>
+                      <div style={{marginTop: "24px"}}>
+                        <p><b>Address: </b> {address}</p>
+                      </div>
+                    </>
+                    : <SearchAddressInputWithMap getAddress={handleChangeAddress} getLatLng={handleChangeLatLng}/> }
+                    
+                    <h3 style={{marginTop: "24px"}}>Date and Time</h3>
                     <p>Select scheduled events or create your own to let attendees know where to show up.</p>
 
                     <div className={styles.dateSection}>
-                      <div><DateInput  label={"Start Date"}/></div>
-                      <div className={styles.dateInput}><TimeInput  label={"Start Time"}/></div>
+                      <div><DateInput getDate={handleChangeStartDate} label={"Start Date"}/></div>
+                      <div className={styles.dateInput}><TimeInput getHour={handleChangeStartHour} label={"Start Time"}/></div>
                     </div>
                     <div className={styles.dateSection}>
-                      <div><DateInput label={"End Date"}/></div>
-                      <div className={styles.dateInput}><TimeInput label={"End Time"}/></div>
+                      <div><DateInput getDate={handleChangeEndDate} label={"End Date"}/></div>
+                      <div className={styles.dateInput}><TimeInput getHour={handleChangeEndHour} label={"End Time"}/></div>
                     </div>
                   </>
                   : ""
@@ -104,15 +219,25 @@ const CreateEvent = ({ fullName="Kubilay Cakmak" }) => {
                 <h3>Reward Details</h3>
                 <p>Select the type of rewards your attendees will receive.</p>
                 <div className={styles.form}>
-                  <SelectInput label={"Reward Type"} />
+                  <SelectInput getType={handleChangeType} label={"Reward Type"} />
                 </div>
                 <h3>Number of Giveaways</h3>
                 <p>Set the limit of how many prizes are to be given out to attendees.</p>
-                <DefaultInput placeholder="Enter quantity" label="Giveaway amount"/>
-                <h3>Select Wallet</h3>
-                  <Wallet />
-                <h3>Select NFTs</h3>
-                <DefaultInput type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/>
+                {type == "NFT" ? <DefaultInput disable={true} onChangeValue={handleChangeLimit} forceValue={type} placeholder="1" label="Giveaway amount"/> : <DefaultInput onChangeValue={handleChangeLimit} forceValue={type} placeholder="Enter quantity" label="Giveaway amount"/>}
+                
+                {type == "NFT" || type == "FNFT" ? <Wallet onChangeValue={handleChangeNFT} /> : 
+                <>
+                  <h3>Links</h3>
+                  <DefaultInput onChangeValue={handleChangeRewardUrl} placeholder="Enter URL" label="Reward Download URL" />
+                  <DefaultInput onChangeValue={handleChangeWebsiteUrl} placeholder="Enter URL" label="Website URL"/>
+
+                  <h3>Upload Cover Artwork</h3>
+                  <p>This image will appear next to your listing. Use a high quality image 
+          (size x size).</p>
+                  <FileUplod dataFromFileDrop={handleChangeCoverImage}/>
+                </>}
+                
+                <DefaultInput onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/>
             </div>
         </div>
         : 
@@ -130,7 +255,7 @@ const CreateEvent = ({ fullName="Kubilay Cakmak" }) => {
         </div>
         : ""
         }
-        <EventBottomNavigation callback={callback} step={step}/>
+        <EventBottomNavigation data={data} callback={callback} step={step}/>
       </div>
     </div>
   )

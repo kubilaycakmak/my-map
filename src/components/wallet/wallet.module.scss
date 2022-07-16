@@ -15,6 +15,7 @@
     display: flex;
     flex-direction: column;
     margin-left: 16px;
+    width: 100%;
 }
 .walletName{
     font-family: 'Poppins';
@@ -32,6 +33,7 @@
     color: #3C3C3C;
 }
 .walletAddress{
+    margin-top: 3px;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
@@ -45,4 +47,46 @@
     /* Caption/Gray */
     
     color: #949494;
+}
+
+.connectButton{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 18px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    /* Caption/Gray */
+    cursor: pointer;
+    color: red;
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+.changeButton{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    /* Caption/Gray */
+    cursor: pointer;
+    color: red;
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+.walletConnect{
+    display: flex;
+    flex-wrap: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
