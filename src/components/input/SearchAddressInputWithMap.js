@@ -6,7 +6,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
-const SearchAddressInputWithMap = ({label = "Venue Address", getAddress, getLatLng}) => {
+const SearchAddressInputWithMap = ({label = "Venue Address *", getAddress, getLatLng, error}) => {
     const count = 1;
     let markers = [];
     let map = useRef(null);
@@ -86,7 +86,7 @@ const SearchAddressInputWithMap = ({label = "Venue Address", getAddress, getLatL
     
   return (
     <div className="geocoder-outer">
-        <label>{label}</label>
+        <label style={error.includes(label) ? {color: "red"} : {color: "#3C3C3C"}}>{label}</label>
         <div id="geocoder"></div>
         <div id="map"></div>
     </div>

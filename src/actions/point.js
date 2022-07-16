@@ -12,8 +12,8 @@ import {
 
 import PointService from "../services/point.service";
 
-export const setPoint = (title, lng, lat, author, type, limit) => (dispatch) => {
-    return PointService.setPoint(title, lng, lat, author, type, limit).then(
+export const setPromoPoint = (data) => (dispatch) => {
+    return PointService.setPromoPoint(data).then(
         (data) => {
         dispatch({
             type: POINT_SET_SUCCESS,
@@ -44,14 +44,8 @@ export const setPoint = (title, lng, lat, author, type, limit) => (dispatch) => 
     );
 };
 
-export const setNFTPoint = (title, lng, lat, author, type, limit, author_wallet, token_id, contract_type, description, image, token_address) => (dispatch) => {
-    return PointService.setNFTPoint(title, lng, lat, author, type, limit,
-        author_wallet,
-        token_id,
-        contract_type,
-        description,
-        image,
-        token_address).then(
+export const setNFTPoint = (data) => (dispatch) => {
+    return PointService.setNFTPoint(data).then(
         (data) => {
         dispatch({
             type: POINT_SET_SUCCESS,

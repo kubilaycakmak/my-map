@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Button, InputGroup,FormControl } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
-import { setPoint } from '../../actions/point'
+import { setPromoPoint } from '../../actions/point'
 import eventBus from '../../common/EventBus';
 
 function CenterModal(props) {
@@ -25,7 +25,7 @@ function CenterModal(props) {
       let lng = props.location[0]
       let lat = props.location[1]
       let author = currentUser.username; 
-      dispatch(setPoint(title, String(lat), String(lng), author, type, limit))
+      dispatch(setPromoPoint(title, String(lat), String(lng), author, type, limit))
       eventBus.dispatch('reRender');
       props.onHide();
     }

@@ -1,19 +1,25 @@
-import React from 'react'
+import moment from 'moment';
+import React, { useEffect } from 'react'
 import styles from "./styles/rewardpreviewcard.module.scss"
 
-const RewardsPreviewCard = ({ image, title, date, address, type}) => {
+const RewardsPreviewCard = ({ data }) => {
+
+  useEffect(() => {
+    console.log(data);
+  }, [])
+  
   return (
     <div className={styles.rewardCard}>
-        <img className={styles.rewardCardImage} src={require("../../images/event.png")} />
+        <img className={styles.rewardCardImage} src={data.event_image[0].preview} />
         <div className={styles.rewardCardBody}>
             <div className={styles.rewardCardBodyInformation}>
-                <h4>{date}</h4>
-                <h3>{title}</h3>
-                <p>{address}</p>
+                <h4>{data.startDateTS ? moment.unix(data.startDateTS).format("LLLL") : ""}</h4>
+                <h3>{data.title}</h3>
+                <p>{data.address}</p>
             </div>
             <div className={styles.rewardCardFooter}>
             <label>Rewards: </label>
-            <span>{type}</span>
+            <span>{data.type}</span>
         </div>
         </div>
         

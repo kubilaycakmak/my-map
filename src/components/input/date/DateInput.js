@@ -3,10 +3,12 @@ import { Picklist, PicklistOption, DatePicker } from 'react-rainbow-components';
 import './dateinput.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
-const DateInput = ({label, getDate}) => {
+const DateInput = ({label, getDate, error=[]}) => {
     const [value, setValue] = useState({
-        date: new Date('2019-10-25 10:44')
+        date: moment().format("LLLL")
+        // new Date('2019-10-25 10:44')
     });
     
     const containerStyles = {
@@ -24,6 +26,7 @@ const DateInput = ({label, getDate}) => {
             style={containerStyles}
         >
             <DatePicker
+                error={error.includes(label) ? "Please select time" : ""}
                 value={value.date}
                 onChange={getDateFromInput}
                 label={label}

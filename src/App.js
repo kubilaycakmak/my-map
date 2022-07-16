@@ -10,7 +10,6 @@ import Profile from "./components/Profile";
 import BoardModerator from "./components/BoardModerator";
 import Nav from './components/nav/Nav'
 import { history } from "./helpers/history";
-import Test from './components/Test.js'
 import { useDispatch, useSelector } from "react-redux";
 import { getNFTPoint, getPoint } from "./actions/point";
 import Reset from './components/Reset'

@@ -3,7 +3,6 @@ import styles from './eventtable.module.scss'
 import Table from 'react-bootstrap/Table';
 
 const RewardsTable = ({ rewards }) => {
-  console.log(events);
   return (
     <Table className={styles.table}>
       <thead className={styles.thead}>
@@ -14,14 +13,13 @@ const RewardsTable = ({ rewards }) => {
       </thead>
       <tbody>
         {
-          rewards.map((item, index) => {
-            return (
-              <tr key={index} className={styles.tr}>
-                <td>{item.type}</td>
-                <td>{item.details}</td>
+          rewards 
+          ? 
+          <tr className={styles.tr}>
+                <td>{ rewards.detail ? <img src={rewards.detail.image[0].preview}/> : "" } <span>{rewards.type}</span></td>
+                { rewards.type == "PROMO" ? rewards.detail ? <td>{rewards.detail.download_url}</td> : "" : ""}
               </tr>
-            )
-          })
+          : ""
         }
       </tbody>
     </Table>

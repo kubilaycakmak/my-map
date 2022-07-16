@@ -1,10 +1,12 @@
+import moment from 'moment';
 import React, { useState } from 'react'
 import { TimePicker } from 'react-rainbow-components';
 import './timeinput.scss'
-const TimeInput = ({label, getHour}) => {
+const TimeInput = ({label, getHour, error}) => {
 
     const [value, setValue] = useState({
-        time: "13:32",
+        time: moment().format("HH:mm")
+        // "13:32",
     });
     
     const containerStyles = {
@@ -22,6 +24,7 @@ const TimeInput = ({label, getHour}) => {
             style={containerStyles}
         >
             <TimePicker
+                error={error.includes(label) ? "Please select time" : ""}
                 id="time-picker-1"
                 value={value.time}
                 label={label}
