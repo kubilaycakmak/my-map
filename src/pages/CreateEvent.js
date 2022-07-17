@@ -18,10 +18,11 @@ import axios from 'axios'
 import queryString from 'query-string';
 import RewardsTable from '../components/table/RewardsTable';
 import RewardsPreview from '../components/table/RewardsPreview';
-import { setPromoPoint } from '../actions/point';
+import { setNFTPoint, setPoint } from '../actions/point';
+import EventSuccess from '../pages/EventStatus/EventSuccess'
 
 const CreateEvent = () => {
-  const dispatch = useDispatch();
+  
   let dataFlow = {};
   let history = useHistory();
   const [isLocationSelected, setIsLocationSelected] = useState(false);
@@ -49,7 +50,7 @@ const CreateEvent = () => {
   const [cover, setCover] = useState({fileName: "", file:""});
   const [rewardDescription, setRewardDescription] = useState();
   const [error, setError] = useState([]);
-
+  const dispatch = useDispatch();
   const callback = (step) => {
     setStep(step)
   }   
@@ -58,7 +59,6 @@ const CreateEvent = () => {
   }
 
   useEffect(() => {
-    
     if(history.location.search){
       const parsed = queryString.parse(history.location.search);
       setIsLocationSelected(true);
@@ -141,6 +141,7 @@ const CreateEvent = () => {
     setLimit(data.target.value)
   }
   const handleChangeNFT = (data) => {
+    console.log(data);
     setNFT(data);
   }
   const handleChangeRewardUrl = (data) => {
@@ -156,6 +157,7 @@ const CreateEvent = () => {
     setRewardDescription(data.target.value);
   }
   let errorMap = [];
+
   const handleChangePage = (step) => {
     if(step == 0){
       setError([]);
@@ -220,12 +222,65 @@ const CreateEvent = () => {
           if(!cover) errorMap.push("cover")
           setError(errorMap)
         }
+      }else if(type == "NFT"){
+        if(nft){
+          errorMap = [];
+          setError([]);
+          setData({
+            title:title,
+            author: author,
+            description: description,
+            event_image: eventImage,
+            lng: lng,
+            lat: lat,
+            radius: 10,
+            address: address,
+            startDateTS: moment(startDateTS + " " + startHour).format('X'),
+            endDateTS: moment(endDateTS + " " + endHour).format("X"),
+            type: type,
+            limit: 1,
+            createdAt: moment().format('x'),
+            detail:nft
+          })
+          setStep(3)
+        }else{
+          if(!nft) errorMap.push("Select NFTs")
+          setError(errorMap)
+        }
+      }else if(type == "FNFT"){
+        if(limit && nft){
+          errorMap = [];
+          setError([]);
+          setData({
+            title:title,
+            author: author,
+            description: description,
+            event_image: eventImage,
+            lng: lng,
+            lat: lat,
+            radius: 10,
+            address: address,
+            startDateTS: moment(startDateTS + " " + startHour).format('X'),
+            endDateTS: moment(endDateTS + " " + endHour).format("X"),
+            type: type,
+            limit: limit,
+            createdAt: moment().format('x'),
+            detail:nft
+          })
+          setStep(3)
+        }else{
+          if(!limit) errorMap.push("Giveaway amount *")
+          if(!nft) errorMap.push("Select NFTs")
+          setError(errorMap)
+        }
       }
     }else if(step == 3){
-      console.log('publish');
-      console.log(data);
       if(type == "PROMO"){
-        dispatch(setPromoPoint(data))
+        dispatch(setPoint(data));
+        setStep(4)
+      }else if(type == "NFT" || type == "FNFT"){
+        dispatch(setNFTPoint(data));
+        setStep(4)
       }
     }
   }
@@ -236,7 +291,7 @@ const CreateEvent = () => {
       <div className={styles.eventOutter}>
         {step == 0
         ?
-         <div id="first-step">
+        <div id="first-step">
             <div className={styles.header}>
             <h1>Event Details</h1>
             </div>
@@ -340,7 +395,7 @@ const CreateEvent = () => {
 
                   <h3>Upload Cover Artwork</h3>
                   <p>This image will appear next to your listing. Use a high quality image 
-          (size x size). required *</p>
+                    (size x size). required *</p>
                   <FileUplod dataFromFileDrop={handleChangeCoverImage}/>
                 </>}
                 
@@ -375,7 +430,11 @@ const CreateEvent = () => {
               </div>
             </div>
         </div>
-        : ""
+        : step == 4 
+        ?
+         <EventSuccess />
+        : 
+        ""
         }
       </div>
     </div>

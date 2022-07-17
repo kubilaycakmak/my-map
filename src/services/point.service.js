@@ -1,59 +1,51 @@
 import axios from "axios";
 import authHeader from './auth-header';
 
-const setPromoPoint = (data) => {
-  return axios.post(process.env.REACT_APP_API_URL + '/api/point/promo/', {
+const setPoint = async (data) => {
+  const response = await axios.post(process.env.REACT_APP_API_URL + '/api/point/promo/', {
     data
-  }, { headers: authHeader() }).then((response) => {
-    return response.data.points
-  });
+  }, { headers: authHeader() });
+  return response.data.points;
 };
 
-const setNFTPoint = (data) => {
-  return axios.post(process.env.REACT_APP_API_URL + '/api/point/nft/', {
+const setNFTPoint = async (data) => {
+  const response = await axios.post(process.env.REACT_APP_API_URL + '/api/point/nft/', {
     data
-  }, { headers: authHeader() }).then((response) => {
-    return response.data.points
-  });
+  }, { headers: authHeader() });
+  return response.data.points;
 };
 
-const getPoint = () => {
-    return axios.get(process.env.REACT_APP_API_URL + '/api/point/', { headers: authHeader() }).then(
-      (response) => {
-        return response.data.points
-      }
-    );
+const getPoint = async () => {
+    const response = await axios.get(process.env.REACT_APP_API_URL + '/api/point/', { headers: authHeader() });
+  return response.data.points;
 };
 
-const getNFTPoint = () => {
-  return axios.get(process.env.REACT_APP_API_URL + '/api/point/nft', { headers: authHeader() }).then(
-    (response) => {
-      return response.data.points
-    }
-  );
+const getNFTPoint = async () => {
+  const response = await axios.get(process.env.REACT_APP_API_URL + '/api/point/nft', { headers: authHeader() });
+  return response.data.points;
 };
 
-const getOwnEventPoint = (username) => {
-  return axios.get(process.env.REACT_APP_API_URL + `/api/point/own-event?author=${username}`, { headers: authHeader() }).then(
-    (response) => {
-      return response.data.points
-    }
-  );
+const getOwnEventPoint = async (username) => {
+  const response = await axios.get(process.env.REACT_APP_API_URL + `/api/point/own-event?author=${username}`, { headers: authHeader() });
+  return response.data.points;
 };
 
-const resetPoint = () => {
-  return axios.delete(process.env.REACT_APP_API_URL + '/api/point/', { headers: authHeader() }).then(
-    () => {
-      return []
-    }
-  );
+const resetPoint = async () => {
+  await axios.delete(process.env.REACT_APP_API_URL + '/api/point/', { headers: authHeader() });
+  return [];
 };
+
+const getPointById = async (id) => {
+  const response = await axios.get(process.env.REACT_APP_API_URL + `/api/point/${id}`, { headers: authHeader() });
+  return response.data.point;
+}
 
 export default {
-  setPromoPoint,
+  setPoint,
   getPoint,
   resetPoint,
   setNFTPoint,
   getNFTPoint,
-  getOwnEventPoint
+  getOwnEventPoint,
+  getPointById
 };

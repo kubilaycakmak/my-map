@@ -48,7 +48,7 @@ const App = () => {
             <Route exact path="/create-event-fail" component={EventFailed} />
             <Route path="/mod" component={BoardModerator} />
             <Route exact path='/wallet' component={Wallet} />
-            <Route exact path='/status' component={Status} />
+            <Route exact path='/event-action' component={Status} />
             <Route exact path='/setting' component={Setting} />
             <Route exact path='/reset' component={Reset} />
             <Route exact path='/forget' component={Forget} />

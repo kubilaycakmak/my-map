@@ -6,14 +6,15 @@ import {
     POINT_SET_FAIL,
     POINT_RESET_FAIL,
     SET_MESSAGE,
-    OWN_NFT_POINT_GET_SUCCESS,
-    OWN_NFT_POINT_GET_FAIL
+    POINT_GET_OWN_SUCCESS,
+    POINT_GET_OWN_FAIL,
+    POINT_GET_BY_ID_SUCCESS
   } from "./types";
 
 import PointService from "../services/point.service";
 
-export const setPromoPoint = (data) => (dispatch) => {
-    return PointService.setPromoPoint(data).then(
+export const setPoint = (data) => (dispatch) => {
+    return PointService.setPoint(data).then(
         (data) => {
         dispatch({
             type: POINT_SET_SUCCESS,
@@ -108,43 +109,43 @@ export const getPoint = () => (dispatch) => {
     );
 };
 
-export const getNFTPoint = () => (dispatch) => {
-    return PointService.getNFTPoint().then(
-        (data) => {
-        dispatch({
-            type: POINT_GET_SUCCESS,
-            payload: { point: data },
-        });
+// export const getNFTPoint = () => (dispatch) => {
+//     return PointService.getNFTPoint().then(
+//         (data) => {
+//         dispatch({
+//             type: POINT_GET_SUCCESS,
+//             payload: { point: data },
+//         });
 
-        return Promise.resolve();
-        },
-        (error) => {
-        const message =
-            (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-            error.message ||
-            error.toString();
+//         return Promise.resolve();
+//         },
+//         (error) => {
+//         const message =
+//             (error.response &&
+//             error.response.data &&
+//             error.response.data.message) ||
+//             error.message ||
+//             error.toString();
   
-        dispatch({
-            type: POINT_GET_FAIL,
-        });
+//         dispatch({
+//             type: POINT_GET_FAIL,
+//         });
   
-        dispatch({
-            type: SET_MESSAGE,
-            payload: message,
-        });
+//         dispatch({
+//             type: SET_MESSAGE,
+//             payload: message,
+//         });
   
-        return Promise.reject();
-        }
-    );
-};
+//         return Promise.reject();
+//         }
+//     );
+// };
 
 export const getOwnEventPoint = (username) => (dispatch) => {
     return PointService.getOwnEventPoint(username).then(
         (data) => {
         dispatch({
-            type: OWN_NFT_POINT_GET_SUCCESS,
+            type: POINT_GET_OWN_SUCCESS,
             payload: { point: data },
         });
 
@@ -159,7 +160,7 @@ export const getOwnEventPoint = (username) => (dispatch) => {
             error.toString();
   
         dispatch({
-            type: OWN_NFT_POINT_GET_FAIL,
+            type: POINT_GET_OWN_FAIL,
         });
   
         dispatch({
@@ -203,4 +204,34 @@ export const resetPoint = () => (dispatch) => {
         }
     );
 };
+
+export const getPointById = (id) => (dispatch) => {
+    return PointService.getPointById(id).then(
+        (data) => {
+            dispatch({
+                type: POINT_GET_BY_ID_SUCCESS,
+                payload: { point: data },
+            });
+            return Promise.resolve();
+        },
+        (error) => {
+        const message =
+            (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+            error.toString();
   
+        dispatch({
+            type: POINT_GET_FAIL,
+        });
+  
+        dispatch({
+            type: SET_MESSAGE,
+            payload: message,
+        });
+  
+        return Promise.reject();
+        }
+    );
+};

@@ -42,6 +42,7 @@ const NFTTable = ({ wallet, callback }) => {
     );
   };
 
+
   useEffect(() => {
     fetchNFTMetadata(wallet)
     console.log('asd');
@@ -49,8 +50,10 @@ const NFTTable = ({ wallet, callback }) => {
   }, [wallet])
 
   const addNFTtoSelectedList = (nft) => {
+    const { image } = nft.metadata;
     list.push(nft);
     setSelectedNFTs(list);
+    callback({...nft, image});
   }
 
   const deleteNFTfromSelectedList = (nft) => {

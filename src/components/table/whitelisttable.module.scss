@@ -1,0 +1,91 @@
+.th{
+    padding: 16px 32px !important;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 122.5%;
+    /* or 17px */
+    color: #3C3C3C;
+    border: none !important;
+    // border-radius: 5px !important;
+}
+.thead{
+    background: #F2F2F2;
+    &:first-child{
+        border-radius: 5px !important;
+    }
+}
+.tr{
+    border: none !important;
+    img{
+        width: 64px;
+        height: 64px;
+    }
+}
+.table{
+    border: none !important;
+}
+td{
+    vertical-align:middle !important;
+    border: none !important;
+    height: 100%;
+    padding-left: 24px !important;
+    &:first-child{
+        padding-left: 32px !important;
+    }
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+
+    color: #3C3C3C;
+    span{
+        margin-left: 12px !important;
+    }
+    button{
+        padding: 12px 32px;
+        gap: 10px;
+
+        width: auto;
+        height: 48px;
+
+        /* Blue */
+
+        background: #2F80ED;
+        border-radius: 5px;
+
+        /* Inside auto layout */
+
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height */
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        color: #FFFFFF;
+
+
+        /* Inside auto layout */
+
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+
+        border: none !important;
+    }
+}
+.table{
+    margin-top: 86px !important;
+    // width: auto !important;
+}

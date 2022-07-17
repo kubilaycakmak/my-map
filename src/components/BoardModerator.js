@@ -275,7 +275,6 @@ const BoardModerator = () => {
         <div className={styles.coordinateInformations}>
           <p><b>Longitude</b>:{lng}</p>
           <p style={{marginLeft: "12px"}}><b>Latitude</b>: {lat}</p>
-          <p style={{marginLeft: "12px"}}><b>Address: </b> {address}</p>
         </div>
         <SideBar />
         

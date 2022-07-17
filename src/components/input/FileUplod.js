@@ -10,12 +10,9 @@ function FileUplod({ dataFromFileDrop }) {
     setFile(acceptedFiles.map(file => Object.assign(file, {
       preview: URL.createObjectURL(file)
     })))
-
-    dataFromFileDrop(acceptedFiles.map(file => Object.assign(file, {
-      preview: URL.createObjectURL(file),
-      file: file
-    })))
-    // Do something with the files
+    acceptedFiles.map(file => {
+      dataFromFileDrop(file.preview)
+    })
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({accept: {'image/*': []}, onDrop})
   // const files = acceptedFiles.map(file => <li key={file.path}>{file.path}</li>);

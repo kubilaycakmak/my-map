@@ -5,13 +5,16 @@ import {
   POINT_GET_FAIL,
   POINT_RESET_SUCCESS,
   POINT_RESET_FAIL,
-  OWN_NFT_POINT_GET_SUCCESS,
-  OWN_NFT_POINT_GET_FAIL
+  POINT_GET_OWN_SUCCESS,
+  POINT_GET_OWN_FAIL,
+  POINT_GET_BY_ID_SUCCESS
   } from "../actions/types";
   
   // const points = JSON.parse(localStorage.getItem("point"));
   
-  const initialState = {};
+  const initialState = {
+    point:[],
+  };
   
   export default function (state = initialState, action) {
     const { type, payload } = action;
@@ -47,14 +50,18 @@ import {
           ...state,
           isAnyPoint: false,
         };
-      case OWN_NFT_POINT_GET_SUCCESS: 
+      case POINT_GET_OWN_SUCCESS: 
         return{
           point: payload.point,
         };
-      case OWN_NFT_POINT_GET_FAIL:
+      case POINT_GET_OWN_FAIL:
         return{
           ...state,
         };
+      case POINT_GET_BY_ID_SUCCESS:
+        return{
+          point: payload.point
+        }
       default:
         return state;
     }

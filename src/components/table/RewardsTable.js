@@ -16,7 +16,7 @@ const RewardsTable = ({ rewards }) => {
           rewards 
           ? 
           <tr className={styles.tr}>
-                <td>{ rewards.detail ? <img src={rewards.detail.image[0].preview}/> : "" } <span>{rewards.type}</span></td>
+                <td>{ rewards.detail ? <img src={rewards.detail.image}/> : "" } <span>{rewards.type}</span></td>
                 { rewards.type == "PROMO" ? rewards.detail ? <td>{rewards.detail.download_url}</td> : "" : ""}
               </tr>
           : ""
