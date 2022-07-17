@@ -62,7 +62,9 @@ const CreateEvent = () => {
     if(history.location.search){
       const parsed = queryString.parse(history.location.search);
       setIsLocationSelected(true);
-      mapClickFn(parsed)
+      setLat(parsed.lng);
+      setLng(parsed.lat);
+      mapClickFn(parsed);
     }
   }, [])
   
@@ -109,6 +111,7 @@ const CreateEvent = () => {
     setDescription(event.target.value);
   }
   const handleChangeEventImage = (data) => {
+    console.log(data);
     setEventImage(data);
   }
   const handleChangeAddress = (data) => {
@@ -151,6 +154,7 @@ const CreateEvent = () => {
     setWebsiteUrl(data.target.value)
   }
   const handleChangeCoverImage = (data) => {
+    console.log(data);
     setCover(data);
   }
   const handleGiveawayDescription = (data) => {
@@ -197,7 +201,7 @@ const CreateEvent = () => {
             title:title,
             author: author,
             description: description,
-            event_image: eventImage,
+            event_image: eventImage.file,
             lng: lng,
             lat: lat,
             radius: 10,
@@ -210,9 +214,10 @@ const CreateEvent = () => {
             detail:{
               download_url: rewardUrl,
               website: websiteUrl,
-              image: cover
+              image: cover.file
             }
           })
+
           setStep(3)
         }else{
           if(!type) errorMap.push("Reward Type")
@@ -230,7 +235,7 @@ const CreateEvent = () => {
             title:title,
             author: author,
             description: description,
-            event_image: eventImage,
+            event_image: eventImage.file,
             lng: lng,
             lat: lat,
             radius: 10,
@@ -255,7 +260,7 @@ const CreateEvent = () => {
             title:title,
             author: author,
             description: description,
-            event_image: eventImage,
+            event_image: eventImage.file,
             lng: lng,
             lat: lat,
             radius: 10,
@@ -418,10 +423,10 @@ const CreateEvent = () => {
               <h1 style={{marginBottom: "48px", marginTop: "24px"}}>Review & Publish</h1>
             </div>
             <div className={styles.body}>
-              <RewardsPreviewCard data={data} />
+              <RewardsPreviewCard data={data} image={eventImage} />
               <h3 style={{marginTop: "48px"}}>Rewards</h3>
               {/* <RewardsPreview /> */}
-              <RewardsTable rewards={data} />
+              <RewardsTable rewards={data} cover={cover} />
             </div>
             <div className={styles.bottomNavigation}>
               <div className={styles.bottomNavigationOuter}>

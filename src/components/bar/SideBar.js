@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOwnEventPoint } from '../../actions/point'
 
 function SideBar() {
+
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
@@ -15,10 +16,14 @@ function SideBar() {
 
   const handleClick = (url) => {
     let urlString = url;
-    if(url == "/event"){
-      history.push(urlString);
-      history.go();
-    }
+    // if(url == "/event"){
+    //   history.push(urlString);
+    //   history.go();
+    // }
+    // if(url == "/mod"){
+    //   history.push(urlString);
+    //   history.go();
+    // }
     history.push(urlString)
   }
 

@@ -14,6 +14,7 @@ import {
   
   const initialState = {
     point:[],
+    points:[]
   };
   
   export default function (state = initialState, action) {
@@ -23,12 +24,12 @@ import {
       case POINT_GET_SUCCESS:
         return {
           ...state,
-          point: payload.point,
+          points: payload.point,
         };
       case POINT_SET_SUCCESS:
         return {
           ...state,
-          point: [...state.point, payload.point],
+          points: [...state.point, payload.point],
         };
       case POINT_SET_FAIL:
         return {
@@ -52,7 +53,7 @@ import {
         };
       case POINT_GET_OWN_SUCCESS: 
         return{
-          point: payload.point,
+          points: payload.point,
         };
       case POINT_GET_OWN_FAIL:
         return{
@@ -60,6 +61,7 @@ import {
         };
       case POINT_GET_BY_ID_SUCCESS:
         return{
+          ...state,
           point: payload.point
         }
       default:

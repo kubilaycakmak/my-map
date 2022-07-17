@@ -13,8 +13,8 @@ const Status = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { point: currentPoints } = useSelector((state) => state.point);
-  const { white_list } = currentPoints;
+  const { point: currentPoints } = useSelector((state) => state);
+  const { white_list } = currentPoints.point || [];
 
   useEffect(() => {
     if(history.location.search){
@@ -26,7 +26,7 @@ const Status = () => {
   }, [])
 
   const handleSendGift = async (data) => {
-    const { detail } = currentPoints;
+    const { detail } = currentPoints.point || {};
     const web3 = await Moralis.enableWeb3();
     const options = {
       type: "erc721",
@@ -44,23 +44,23 @@ const Status = () => {
     <div className={styles.statusPage}>
         <SideBar />
         <div className={styles.statusPageBody}>
-          {currentPoints ? 
+          {currentPoints.point ? 
           <div className={styles.statusHead}>
-            <img src={currentPoints.event_image} />
+            <img src={currentPoints.point.event_image} />
             <div className={styles.statusContext}>
               <div className={styles.statusContextFirst}>
-                <h5>{moment(currentPoints.createdAt).format("LLLL")}</h5>
-                <h3>{currentPoints.title}</h3>
-                <p>{currentPoints.address}</p>
+                <h5>{moment(currentPoints.point.createdAt).format("LLLL")}</h5>
+                <h3>{currentPoints.point.title}</h3>
+                <p>{currentPoints.point.address}</p>
               </div>
               <div className={styles.statusContextSecond}>
-                <p>Reward: <span style={currentPoints.type == "NFT" ? {} : currentPoints.type == "FNFT" ? {background: "#F2C94C"} : {background: "#006DFF"}}>{currentPoints.type}</span></p>
+                <p>Reward: <span style={currentPoints.point.type == "NFT" ? {} : currentPoints.point.type == "FNFT" ? {background: "#F2C94C"} : {background: "#006DFF"}}>{currentPoints.point.type}</span></p>
               </div>
             </div>
           </div> : ""}
           
           {white_list ? white_list.length != 0 ?
-            <WhiteListTable callback={handleSendGift} users={white_list} type={currentPoints.type} /> 
+            <WhiteListTable callback={handleSendGift} users={white_list} type={currentPoints.point.type} /> 
             : 
             <div className={styles.noUser}>
               <h4>There is no user joined!</h4>

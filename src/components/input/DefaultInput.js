@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react'
 import styles from './defaultinput.module.scss'
 const DefaultInput = ({ label, placeholder, type, disable, onChangeValue, required, error }) => {
 
-  useEffect(() => {
-    console.log(error);
-  })
-  
-
   return (
     <div className={styles.inputOuter}>
         <label htmlFor="custom-input" style={error.includes(label) ? {color: "red"} : {color: "#3C3C3C"}}>{label}</label>

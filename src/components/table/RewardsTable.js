@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './eventtable.module.scss'
 import Table from 'react-bootstrap/Table';
 
-const RewardsTable = ({ rewards }) => {
+const RewardsTable = ({ rewards, cover }) => {
   return (
     <Table className={styles.table}>
       <thead className={styles.thead}>
@@ -16,7 +16,7 @@ const RewardsTable = ({ rewards }) => {
           rewards 
           ? 
           <tr className={styles.tr}>
-                <td>{ rewards.detail ? <img src={rewards.detail.image}/> : "" } <span>{rewards.type}</span></td>
+                <td>{ rewards.detail ? <img src={cover.preview}/> : "" } <span>{rewards.type}</span></td>
                 { rewards.type == "PROMO" ? rewards.detail ? <td>{rewards.detail.download_url}</td> : "" : ""}
               </tr>
           : ""

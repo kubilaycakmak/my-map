@@ -6,13 +6,17 @@ function FileUplod({ dataFromFileDrop }) {
   const [file, setFile] = useState([]);
 
   const onDrop = useCallback(acceptedFiles => {
-
+    var data = {};
     setFile(acceptedFiles.map(file => Object.assign(file, {
       preview: URL.createObjectURL(file)
     })))
+
     acceptedFiles.map(file => {
-      dataFromFileDrop(file.preview)
+      data.preview = file.preview;
+      data.file = file;
     })
+
+    dataFromFileDrop(data);
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({accept: {'image/*': []}, onDrop})
   // const files = acceptedFiles.map(file => <li key={file.path}>{file.path}</li>);

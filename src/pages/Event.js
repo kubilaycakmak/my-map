@@ -10,10 +10,11 @@ const Event = () => {
 
   const dispatch = useDispatch();
   const { user: currentUser } = useSelector((state) => state.auth);
-  const { point: currentPoints } = useSelector((state) => state.point);
+  const { point: currentPoints } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getOwnEventPoint(currentUser.username))
+    console.log(currentPoints.points);
   }, [])
   
   return (
@@ -25,7 +26,7 @@ const Event = () => {
           <CustomLink title="Create event" to="/create-event"/>
         </div>
         <div className={styles.body}>
-          {currentPoints ? <EventTable events={currentPoints ? currentPoints : []} /> : "" }
+          {currentPoints.points ? <EventTable events={currentPoints.points ? currentPoints.points : []} /> : "" }
         </div>
       </div>
     </div>
