@@ -32,7 +32,7 @@ const CreateEvent = () => {
   const [option, setOption] = useState("Custom Location");
 
   const [title, setTitle] = useState();
-  const [author, setAuthor] = useState(currentUser.fullName);
+  const [author, setAuthor] = useState(currentUser.id);
   const [description, setDescription] = useState();
   const [eventImage, setEventImage] = useState({preview: "", file: {}});
   const [address, setAddress] = useState();
@@ -70,7 +70,7 @@ const CreateEvent = () => {
   
   const [data, setData] = useState({
     title: title,
-    author: currentUser.fullName,
+    author: currentUser.id,
     description: description,
     event_image: eventImage,
     lng: lng,
@@ -80,7 +80,7 @@ const CreateEvent = () => {
     startDateTS: "",
     endDateTS: "",
     type: type,
-    limit: limit,
+    limit: parseInt(limit),
     createdAt: moment().unix(),
   });
 
@@ -209,12 +209,13 @@ const CreateEvent = () => {
             startDateTS: moment(startDateTS + " " + startHour).format('X'),
             endDateTS: moment(endDateTS + " " + endHour).format("X"),
             type: type,
-            limit: limit,
+            limit: parseInt(limit),
             createdAt: moment().format('x'),
             detail:{
               download_url: rewardUrl,
               website: websiteUrl,
-              image: cover.preview
+              image: cover.preview,
+              description: rewardDescription
             }
           })
 
@@ -268,7 +269,7 @@ const CreateEvent = () => {
             startDateTS: moment(startDateTS + " " + startHour).format('X'),
             endDateTS: moment(endDateTS + " " + endHour).format("X"),
             type: type,
-            limit: limit,
+            limit: parseInt(limit),
             createdAt: moment().format('x'),
             detail:nft
           })
@@ -394,7 +395,7 @@ const CreateEvent = () => {
                 ? <DefaultInput error={error} disable={true} onChangeValue={handleChangeLimit} forceValue={type} placeholder="1" label="Giveaway amount *"/> 
                 : <DefaultInput error={error} onChangeValue={handleChangeLimit} forceValue={type} placeholder="Enter quantity" label="Giveaway amount *"/>}
                 
-                {type == "NFT" || type == "FNFT" ? <Wallet onChangeValue={handleChangeNFT} /> : 
+                {type == "NFT" || type == "FNFT" ? <Wallet onChangeValue={handleChangeNFT} type={type} /> : 
                 <>
                   <h3>Links</h3>
                   <DefaultInput error={error} onChangeValue={handleChangeRewardUrl} placeholder="Enter URL" label="Reward Download URL *" />

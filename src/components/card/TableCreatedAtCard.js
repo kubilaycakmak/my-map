@@ -3,8 +3,9 @@ import styles from './styles/tablecreatedatcard.module.scss'
 import moment from 'moment'
 
 const TableCreatedAtCard = ({date}) => {
+  console.log(date);
   return (
-    <p className={styles.createdDate}>{moment.unix(date).format("MMMM DD, YYYY")}</p>
+    <p className={styles.createdDate}>{moment(date).format("LLL")}</p>
   )
 }
 

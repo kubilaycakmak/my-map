@@ -90,3 +90,20 @@
     align-items: center;
     width: 100%;
 }
+
+.networkName{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    /* Caption/Gray */
+    color: red;
+    border: none;
+    padding: 0;
+    background: none;
+    margin-left: 6px;
+}

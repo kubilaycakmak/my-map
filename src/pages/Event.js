@@ -5,17 +5,24 @@ import styles from "./styles/event.module.scss"
 import SideBar from '../components/bar/SideBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOwnEventPoint } from '../actions/point'
+import { Redirect } from 'react-router-dom'
 
 const Event = () => {
 
   const dispatch = useDispatch();
   const { user: currentUser } = useSelector((state) => state.auth);
   const { point: currentPoints } = useSelector((state) => state);
-
+  const { isLoggedIn } = useSelector(state => state.auth);
   useEffect(() => {
-    dispatch(getOwnEventPoint(currentUser.username))
+    if(currentUser){
+      dispatch(getOwnEventPoint(currentUser.id))
+    }
     console.log(currentPoints.points);
   }, [])
+
+  if (!isLoggedIn) {
+    return <Redirect to="/login" />;
+  }
   
   return (
     <div className={styles.event}>

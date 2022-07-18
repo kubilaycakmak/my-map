@@ -3,7 +3,7 @@ import Metamask from '../meta/Metamask'
 import NFTTable from './NFTTable'
 import styles from './wallet.module.scss'
 
-const Wallet = ({ onChangeValue }) => {
+const Wallet = ({ onChangeValue, type }) => {
 
   const [wallet, setWallet] = useState(null);
 
@@ -20,8 +20,8 @@ const Wallet = ({ onChangeValue }) => {
       
        {wallet ? 
        <>
-          <h3>Select NFTs</h3>
-          <NFTTable callback={onChangeValue} wallet={wallet} />
+          <h3>Select NFTs <span className={styles.networkName}>{type == "NFT" ? "- Ethereum Mainnet" : "- Rinkeby Test Network"}</span></h3>
+          <NFTTable callback={onChangeValue} wallet={wallet} typeNFT={type} />
        </> : ""}
     </>
     
