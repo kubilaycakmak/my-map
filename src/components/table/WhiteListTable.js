@@ -23,26 +23,23 @@ const WhiteListTable = ({users, callback, type}) => {
         </tr>
       </thead>
       <tbody>
-        {
-          users 
-          ? 
+          {
+            users && users.map((item, index) =>{
+                return (
+                    <>
           <tr className={styles.tr}>
-            {
-                users.map((item, index) =>{
-                    return (
-                        <>
+            
                             <td>{index + 1}</td>
                             <td>{item.email}</td>
                             {type == "NFT" || type == "FNFT" ? <td>{item.wallet}</td> : "" }
                             {type == "NFT" || type == "FNFT" ? item.receive ? <td style={{color: "green"}}>Success</td> : <td><button onClick={() => handleSendGift(item.wallet)}>Send NFT</button></td> : ""}
-                        </>
-                    )
-                })
-            
-            }
+               
           </tr>
-          : ""
-        }
+                   </>
+                   )
+               })
+           
+           }
       </tbody>
     </Table>
   )

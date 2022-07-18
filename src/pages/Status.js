@@ -288,6 +288,7 @@ const Status = () => {
 
           {currentPoints && currentPoints.point && currentPoints.point.detail && currentPoints.point.detail.fractionAddress ? 
           <>
+          {/* <button style={isFractionAddress ? {background: "#006DFF", color: "white" } : {}} className={styles.fractionalizeNFT} onClick={() => getFractionContractAddress()}>4 - GET Fraction Contract Address</button> */}
           <p className={styles.fractionAddress}>Fraction Address: {currentPoints.point.detail.fractionAddress}</p>
           <span className={styles.fractionAddressInformation}>⚠️ Your tokens are at this address, please use this address when adding custom tokens to your wallet to receive tokens.</span>
           </> : ""}
