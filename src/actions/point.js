@@ -8,7 +8,9 @@ import {
     SET_MESSAGE,
     POINT_GET_OWN_SUCCESS,
     POINT_GET_OWN_FAIL,
-    POINT_GET_BY_ID_SUCCESS
+    POINT_GET_BY_ID_SUCCESS,
+    POINT_UPDATE_SUCCESS,
+    POINT_UPDATE_FAIL
   } from "./types";
 
 import PointService from "../services/point.service";
@@ -109,38 +111,6 @@ export const getPoint = () => (dispatch) => {
     );
 };
 
-// export const getNFTPoint = () => (dispatch) => {
-//     return PointService.getNFTPoint().then(
-//         (data) => {
-//         dispatch({
-//             type: POINT_GET_SUCCESS,
-//             payload: { point: data },
-//         });
-
-//         return Promise.resolve();
-//         },
-//         (error) => {
-//         const message =
-//             (error.response &&
-//             error.response.data &&
-//             error.response.data.message) ||
-//             error.message ||
-//             error.toString();
-  
-//         dispatch({
-//             type: POINT_GET_FAIL,
-//         });
-  
-//         dispatch({
-//             type: SET_MESSAGE,
-//             payload: message,
-//         });
-  
-//         return Promise.reject();
-//         }
-//     );
-// };
-
 export const getOwnEventPoint = (username) => (dispatch) => {
     return PointService.getOwnEventPoint(username).then(
         (data) => {
@@ -224,6 +194,38 @@ export const getPointById = (id) => (dispatch) => {
   
         dispatch({
             type: POINT_GET_FAIL,
+        });
+  
+        dispatch({
+            type: SET_MESSAGE,
+            payload: message,
+        });
+  
+        return Promise.reject();
+        }
+    );
+};
+
+export const updatePoint = (data) => (dispatch) => {
+    return PointService.updatePoint(data).then(
+        (data) => {
+        dispatch({
+            type: POINT_UPDATE_SUCCESS,
+            payload: { point: data },
+        });
+  
+        return Promise.resolve();
+        },
+        (error) => {
+        const message =
+            (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+            error.toString();
+  
+        dispatch({
+            type: POINT_UPDATE_FAIL,
         });
   
         dispatch({

@@ -7,6 +7,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import Google from '../components/button/google/googleRegister.js'
 import { register } from "../actions/auth";
+import styles from './styles/register.module.scss'
 
 const required = (value) => {
   if (!value) {
@@ -49,9 +50,10 @@ const vpassword = (value) => {
 };
 
 const Register = () => {
+
   const form = useRef();
   const checkBtn = useRef();
-
+  const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector(state => state.auth);
 
   const [fullName, setFullName] = useState("");
@@ -111,10 +113,10 @@ const Register = () => {
   }
 
   return (
-    <div className="col-md-12 page">
-      <div className="card card-container">
-
-        <Form onSubmit={handleRegister} ref={form} className="form">
+    <div className={styles.login}>
+      <img className={styles.logo} src={require('../images/logowname.png')} />
+      <div className={styles.loginOuter}>
+      <Form onSubmit={handleRegister} ref={form} className="form">
           {!successful && (
             <div>
               <div className="form-group">
@@ -194,15 +196,110 @@ const Register = () => {
                 {message}
               </div>
               <div className="form-group">
-                <a href="/login" className="btn btn-dark btn-block">Sign In</a>
+                <NavLink to="/login" className="btn btn-block" style={{background: "white", borderRadius: "3px", color: "black", }}>Sign In</NavLink>
               </div>
             </div>
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+      </Form>
+        
       </div>
+      
     </div>
   );
+  // return (
+  //   <div className="col-md-12 page">
+  //     <div className="card card-container">
+
+  //       <Form onSubmit={handleRegister} ref={form} className="form">
+  //         {!successful && (
+  //           <div>
+  //             <div className="form-group">
+  //               <label htmlFor="username">Full Name</label>
+  //               <Input
+  //                 type="text"
+  //                 className="form-control"
+  //                 name="username"
+  //                 value={fullName}
+  //                 onChange={onChangeFullName}
+  //               />
+  //             </div>
+  //             <div className="form-group">
+  //               <label htmlFor="username">Username</label>
+  //               <Input
+  //                 type="text"
+  //                 className="form-control"
+  //                 name="username"
+  //                 value={username}
+  //                 onChange={onChangeUsername}
+  //                 validations={[required, vusername]}
+  //               />
+  //             </div>
+
+  //             <div className="form-group">
+  //               <label htmlFor="email">Email</label>
+  //               <Input
+  //                 type="text"
+  //                 className="form-control"
+  //                 name="email"
+  //                 value={email}
+  //                 onChange={onChangeEmail}
+  //                 validations={[required, validEmail]}
+  //               />
+  //             </div>
+
+  //             <div className="form-group">
+  //               <label htmlFor="password">Password</label>
+  //               <Input
+  //                 type="password"
+  //                 className="form-control"
+  //                 name="password"
+  //                 value={password}
+  //                 onChange={onChangePassword}
+  //                 validations={[required, vpassword]}
+  //               />
+  //             </div>
+
+  //             <div className="form-group">
+  //               <label htmlFor="email">Wallet Address</label>
+  //               <Input
+  //                 type="text"
+  //                 className="form-control"
+  //                 name="email"
+  //                 value={walletAddress}
+  //                 onChange={onChangeWalletAddress}
+  //               />
+  //             </div>
+
+  //             <div className="form-group">
+  //               <button className="btn btn-dark btn-block">Sign Up</button>
+  //             </div>
+
+  //             <div className="form-group">
+  //               <Google />
+  //             </div>
+
+  //             <div className="form-group">
+  //               <NavLink to={"/login"} >Sign in</NavLink>
+  //             </div>
+  //           </div>
+  //         )}
+
+  //         {message && (
+  //           <div className="form-group no-margin">
+  //             <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
+  //               {message}
+  //             </div>
+  //             <div className="form-group">
+  //               <a href="/login" className="btn btn-dark btn-block">Sign In</a>
+  //             </div>
+  //           </div>
+  //         )}
+  //         <CheckButton style={{ display: "none" }} ref={checkBtn} />
+  //       </Form>
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default Register;

@@ -29,7 +29,7 @@ import {
       case POINT_SET_SUCCESS:
         return {
           ...state,
-          points: [...state.point, payload.point],
+          points: [...state.points, payload.point],
         };
       case POINT_SET_FAIL:
         return {

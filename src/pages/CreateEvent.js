@@ -201,7 +201,7 @@ const CreateEvent = () => {
             title:title,
             author: author,
             description: description,
-            event_image: eventImage.file,
+            event_image: eventImage.preview,
             lng: lng,
             lat: lat,
             radius: 10,
@@ -214,7 +214,7 @@ const CreateEvent = () => {
             detail:{
               download_url: rewardUrl,
               website: websiteUrl,
-              image: cover.file
+              image: cover.preview
             }
           })
 
@@ -235,7 +235,7 @@ const CreateEvent = () => {
             title:title,
             author: author,
             description: description,
-            event_image: eventImage.file,
+            event_image: eventImage.preview,
             lng: lng,
             lat: lat,
             radius: 10,
@@ -260,7 +260,7 @@ const CreateEvent = () => {
             title:title,
             author: author,
             description: description,
-            event_image: eventImage.file,
+            event_image: eventImage.preview,
             lng: lng,
             lat: lat,
             radius: 10,
@@ -280,10 +280,12 @@ const CreateEvent = () => {
         }
       }
     }else if(step == 3){
+      console.log(data);
       if(type == "PROMO"){
         dispatch(setPoint(data));
         setStep(4)
       }else if(type == "NFT" || type == "FNFT"){
+        console.log(data);
         dispatch(setNFTPoint(data));
         setStep(4)
       }

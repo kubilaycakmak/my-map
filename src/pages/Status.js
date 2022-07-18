@@ -4,7 +4,7 @@ import styles from './styles/status.module.scss'
 import { useHistory } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPointById } from '../actions/point';
+import { getPointById, updatePoint } from '../actions/point';
 import WhiteListTable from '../components/table/WhiteListTable';
 import Moralis from "moralis";
 import moment from 'moment';
@@ -14,30 +14,40 @@ const Status = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { point: currentPoints } = useSelector((state) => state);
-  const { white_list } = currentPoints.point || [];
+  const { white_list, _id } = currentPoints.point || [];
+  // Moralis.enableWeb3();
 
   useEffect(() => {
     if(history.location.search){
       const param = queryString.parse(history.location.search);
       dispatch(getPointById(param.id));
-    }else{
-      history.push("/event");
-    }
-  }, [])
+      }else{
+        history.push("/event");
+      }
+    }, [])
 
-  const handleSendGift = async (data) => {
-    const { detail } = currentPoints.point || {};
-    const web3 = await Moralis.enableWeb3();
-    const options = {
-      type: "erc721",
-      receiver: data,
-      contractAddress: detail.owner_of,
-      tokenId: detail.token_id
-  };
+    const handleSendGift = async (data) => {
+      const { detail } = currentPoints.point || {};
+      console.log(detail);
+      const web3 = await Moralis.enableWeb3();
+      const options = {
+        type: detail.contract_type.toLowerCase(),
+        receiver: data,
+        contractAddress: detail.token_address,
+        tokenId: parseInt(detail.token_id)
+    };
 
-  console.log(options);
-  let transaction = await Moralis.transfer(options)
-  console.log(transaction);
+    const pointData = {
+      eventId: _id,
+      wallet: data
+    };
+
+    await Moralis.transfer(options).then(()=> {
+      dispatch(updatePoint(pointData))
+      history.go()
+    }).catch(e => {
+      console.log(e);
+    })
   }
   
   return (
