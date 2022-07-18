@@ -41,3 +41,31 @@
     align-items: center;
     margin-top: 84px;
 }
+
+.noEvent{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img{
+        max-width: 350px;
+        height: auto;
+    }
+    h3{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 48px;
+        display: flex;
+        align-items: center;
+        color: #3C3C3C;
+        margin-top: 16px;
+    }
+    a{
+        margin-top: 24px !important;
+        max-width: 250px !important;
+    }
+}

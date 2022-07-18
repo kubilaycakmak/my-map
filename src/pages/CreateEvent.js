@@ -40,9 +40,9 @@ const CreateEvent = () => {
   const [lng, setLng] = useState();
   const [type, setType] = useState("PROMO");
   const [startDateTS, setStartDateTS] = useState(moment().format("YYYY-MM-DD"));
-  const [startHour, setStartHour] = useState(moment().format('HH:mm A'));
+  const [startHour, setStartHour] = useState(moment().format('HH:mm'));
   const [endDateTS, setEndDateTS] = useState(moment().add(1, 'day').format("YYYY-MM-DD"));
-  const [endHour, setEndHour] = useState(moment().add(2, 'hours').format('HH:mm A'));
+  const [endHour, setEndHour] = useState(moment().add(2, 'hours').format('HH:mm'));
   const [limit, setLimit] = useState();
   const [nft, setNFT] = useState();
   const [rewardUrl, setRewardUrl] = useState();

@@ -32,11 +32,14 @@ const Metamask = ({ onChangeHandler }) => {
       params: [{
         eth_accounts: {},
       }]})
-      setUserAccount(acc[0])
-      onChangeHandler(acc[0])
-      // dispatch(setWalletAddress(currentUser.email, acc[0]));
-      // window.location.reload()
+      if (acc.length){
+        setUserAccount(acc[0].caveats[0].value[0])
+        onChangeHandler(acc[0].caveats[0].value[0])
+        dispatch(setWalletAddress(currentUser.email, acc[0].caveats[0].value[0]));
+      }
     } catch (error) {
+      setUserAccount(null)
+      onChangeHandler(null)
       console.log(error);
       throw new Error('No ethereum object found')
     }
@@ -50,23 +53,24 @@ const Metamask = ({ onChangeHandler }) => {
       }
       const acc = await metamask.request({method: 'eth_accounts'})
       if (acc.length){
-        setUserAccount(acc[0])
-        onChangeHandler(acc[0])
+
+        if(typeof(acc[0].caveats) != "undefined"){
+          setUserAccount(acc[0].caveats[0].value[0])
+          onChangeHandler(acc[0].caveats[0].value[0])
+        }else{
+          setUserAccount(acc[0])
+          onChangeHandler(acc[0])
+        }
+        
       }
     } catch (error) {
       console.log(error);
+      setUserAccount(null)
+      onChangeHandler(null)
       throw new Error('No Ethereum object')
     }
   }
 
-  const removeWalletConnect = async (metamask =eth) => {
-    await window.ethereum.request({
-      method: 'wallet_requestPermissions',
-      params: [{
-        eth_accounts: {},
-      }]
-    });
-  }
 
   useEffect(()=>{
     checkWalletConnect()
@@ -78,10 +82,10 @@ const Metamask = ({ onChangeHandler }) => {
         <div className={styles.walletBody}>
             <div className={styles.walletName}>Metamask Wallet</div>
             { userAccount ? 
-            <div className={styles.walletConnect}>
-              <div className={styles.walletAddress}>{userAccount}</div>
-              <button className={styles.changeButton} onClick={() => removeWalletConnect()}>Change wallet</button>
-            </div>
+              <div className={styles.walletConnect}>
+                <div className={styles.walletAddress}>{userAccount}</div>
+                <button className={styles.changeButton} onClick={() => connectWallet()}>Change wallet</button>
+              </div>
               : <button href='#' className={styles.connectButton} onClick={() => connectWallet()}>Connect your wallet</button>
             }
       </div>

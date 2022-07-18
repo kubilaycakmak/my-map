@@ -15,6 +15,7 @@
     padding-left: 88px;
     padding-top: 16px;
     z-index: 100;
+    
 }
 
 .bottomNavigationOuter{
@@ -23,7 +24,7 @@
     justify-content: space-between;
     align-items: center;
     max-width: 668px;
-
+    
     a{
         font-family: 'Poppins';
         font-style: normal;
@@ -48,3 +49,4 @@
         flex-grow: 0;
     }
 }
+

@@ -5,6 +5,7 @@
 }
 
 .nftTableTr{
+    // border: 1px solid black !important;
     width: 668px;
     height: 86px;
     display: flex;
@@ -44,13 +45,14 @@
 }
 
 .nftTableTrActive{
+
     width: 668px;
     height: 86px;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: center;
-    border: 1px solid #818181;
+    border: 1px solid #818181 !important;
     // border-bottom: 1px solid #F2F2F2 !important; 
     span{
         font-family: 'Poppins';
@@ -99,4 +101,15 @@
         cursor: pointer !important;
     }
 
+}
+
+.noNFT{
+    width: 668px !important; 
+    height: 86px !important;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
 }

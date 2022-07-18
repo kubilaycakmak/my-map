@@ -21,12 +21,30 @@ const Event = () => {
     <div className={styles.event}>
       <SideBar />
       <div className={styles.eventOutter}>
-        <div className={styles.header}>
-          <h1>Events</h1>
-          <CustomLink title="Create event" to="/create-event"/>
-        </div>
+        {
+          currentPoints.points ? currentPoints.points.length != 0 ?
+
+          <div className={styles.header}>
+            <h1>Events</h1>
+            <CustomLink title="Create event" to="/create-event"/>
+          </div>
+          :
+          ""
+          :
+          ""
+        }
+        
         <div className={styles.body}>
-          {currentPoints.points ? <EventTable events={currentPoints.points ? currentPoints.points : []} /> : "" }
+          {currentPoints.points ? currentPoints.points.length != 0 ? <EventTable events={currentPoints.points ? currentPoints.points : []} /> : 
+          <>
+            <div className={styles.noEvent}>
+              <img src={require("./noEvent.png")} />
+              <h3>Lets start to create first event</h3>
+              <CustomLink title="Create event" to="/create-event"/>
+            </div>
+          </> : 
+           ""
+          }
         </div>
       </div>
     </div>

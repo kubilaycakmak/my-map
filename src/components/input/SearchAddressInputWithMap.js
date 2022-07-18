@@ -3,6 +3,7 @@ import './searchaddressinputwithmap.scss'
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import axios from 'axios'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
@@ -18,7 +19,7 @@ const SearchAddressInputWithMap = ({label = "Venue Address *", getAddress, getLa
         map =  new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/kubilayckmk/cl463r634000314rrpzp38ys9',
-            center: [-79.4512, 43.6568],
+            center: [-123.1193, 49.2827],
             zoom: 13,
             pitch: 25
         });
@@ -33,9 +34,27 @@ const SearchAddressInputWithMap = ({label = "Venue Address *", getAddress, getLa
         });
 
         map.on('click', (e) => {
-            console.log(e);
             setLng(e.lngLat.lng)
             setLat(e.lngLat.lat)
+
+            const url =
+                "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+                e.lngLat.lng +
+                "," +
+                e.lngLat.lat +
+                ".json?access_token=" +
+                "pk.eyJ1Ijoia3ViaWxheWNrbWsiLCJhIjoiY2w0NjNvdmZvMDRzYTNqbHJ3enJ4b29mYSJ9.R8rk-T-yUlMh2bjNp1EBew" +
+                "&types=address";
+                axios.get(url).then((res) => {
+                    const { features } = res.data;
+                        if(features.length != 0){
+                            setAddress(features[0].place_name);
+                            getAddress(features[0].place_name);
+                            geocoder.query(features[0].place_name)
+                        }
+                }).catch((e) => {
+                console.log(e);
+            });
 
             getLatLng({
                 lat: e.lngLat.lng,

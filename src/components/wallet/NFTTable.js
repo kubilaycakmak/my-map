@@ -16,51 +16,54 @@ const NFTTable = ({ wallet, callback }) => {
 
   const fetchNFTMetadata = async (wallet) => {
 
-    const options = {
-      chain: "eth",
-      address: wallet,
-    };
+    if(wallet) {
+      const options = {
+        chain: "eth",
+        address: wallet,
+      };
       await Web3Api.account.getNFTs(options).then(
-      (res) => {
-        if(res.result.length !== 0){
-          const newNFTStorage = res.result.map((item, index) => {
-            return {
-              ...item,
-              metadata: JSON.parse(item.metadata)
-            };
-          })
-          setNFTList(newNFTStorage)
-          setIsLoading(false);
-        }else{
-          setNFTList([])
-        }
-      }
-    ).catch(
-      (err) => {
-        setError(err.message);
-      }
-    );
-  };
+          (res) => {
+            if(res.result.length !== 0){
+              const newNFTStorage = res.result.map((item, index) => {
+                return {
+                  ...item,
+                  metadata: JSON.parse(item.metadata)
+                };
+              })
+              console.log(newNFTStorage);
+              setNFTList(newNFTStorage)
+              setIsLoading(false);
+            }else{
+              setNFTList([])
+            }
+          }
+        ).catch(
+          (err) => {
+            setError(err.message);
+          }
+        );
+      };
+    }
+   
 
 
   useEffect(() => {
     fetchNFTMetadata(wallet)
-    console.log('asd');
-    
   }, [wallet])
 
   const addNFTtoSelectedList = (nft) => {
     const { image } = nft.metadata;
-    list.push(nft);
+    list.push(nft.token_address);
     setSelectedNFTs(list);
+    console.log(list);
     callback({...nft, image});
   }
 
   const deleteNFTfromSelectedList = (nft) => {
+    const { image } = nft.metadata;
     console.log('something');
-    const indexOfObject = list.findIndex(o => o.token_address === nft.token_address);
-    list.splice(indexOfObject, 1);
-    fetchNFTMetadata(wallet);
+    list.splice(0, 1);
+    setSelectedNFTs(list)
   }
 
   return (
@@ -70,14 +73,23 @@ const NFTTable = ({ wallet, callback }) => {
             <table>
                 <tbody>
                 {
+                  nftList.length != 0 ?
                     nftList.map((nft, index) => {
                         return (
-                            <tr onClick={() => addNFTtoSelectedList(nft)} className={selectedNFTs[index] === nft ? styles.nftTableTrActive : styles.nftTableTr} key={index}>
-                                <td>{ selectedNFTs[index] === nft ? <span  onClick={() => deleteNFTfromSelectedList(nft)}>decline</span> : ""}<img alt={nft.name} src={nft.metadata.image} /></td>
-                                <td><h3>{nft.name} [{nft.amount}]</h3></td>
+                            <tr  className={selectedNFTs.includes(nft.token_address) ? styles.nftTableTrActive : styles.nftTableTr} key={index}>
+                                <td>{ selectedNFTs.includes(nft.token_address) ? <span  onClick={() => deleteNFTfromSelectedList(nft)}>decline</span> : ""}<img alt={nft.name} src={nft.metadata.image} /></td>
+                                <td onClick={() => addNFTtoSelectedList(nft)}><h3>{nft.name} [{nft.amount}]</h3></td>
                             </tr>
                         )
                     })
+                    :
+                    <tr>
+                      <td>
+                        <div className={styles.noNFT}>
+                          <h4>Sorry, you don't have any NFT in your wallet 😕</h4>
+                        </div>
+                      </td>
+                    </tr>
                 }
                 </tbody>
             </table>

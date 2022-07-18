@@ -5,7 +5,7 @@ import styles from './wallet.module.scss'
 
 const Wallet = ({ onChangeValue }) => {
 
-  const [wallet, setWallet] = useState();
+  const [wallet, setWallet] = useState(null);
 
   const getWalletAddress = (data) => {
     setWallet(data);
@@ -17,8 +17,12 @@ const Wallet = ({ onChangeValue }) => {
       <div className={styles.wallet}>
         <Metamask onChangeHandler={getWalletAddress} />
       </div>
-      <h3>Select NFTs</h3>
-       {wallet ? <NFTTable callback={onChangeValue} wallet={wallet} /> : ""}
+      
+       {wallet ? 
+       <>
+          <h3>Select NFTs</h3>
+          <NFTTable callback={onChangeValue} wallet={wallet} />
+       </> : ""}
     </>
     
   )
