@@ -40,12 +40,9 @@ const SideProfile = () => {
           })
           setNFTs(newNFTStorage)
           setIsLoading(false);
-          console.log(newNFTStorage);
         }else{
           setNFTs([])
         }
-
-        console.log(NFTList);
       }
     ).catch(
       (err) => {

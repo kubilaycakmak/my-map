@@ -4,7 +4,7 @@ import styles from './styles/status.module.scss'
 import { useHistory } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPointById, updatePoint } from '../actions/point';
+import { getPointById, updatePoint, updatePointFraction } from '../actions/point';
 import WhiteListTable from '../components/table/WhiteListTable';
 import Moralis from "moralis";
 import moment from 'moment';
@@ -38,7 +38,6 @@ const Status = () => {
   // Moralis.enableWeb3();
 
   useEffect(() => {
-    console.log(currentPoints);
     if(history.location.search){
       const param = queryString.parse(history.location.search);
       dispatch(getPointById(param.id));
@@ -47,22 +46,46 @@ const Status = () => {
       }
     }, [])
 
-  const handleSendGift = async (data) => {
-      const { detail } = currentPoints.point || {};
-      console.log(detail);
-      const web3 = await Moralis.enableWeb3();
-      const options = {
-        type: detail.contract_type.toLowerCase(),
-        receiver: data,
-        contractAddress: detail.token_address,
-        tokenId: parseInt(detail.token_id)
+  const senffnft = async (data) => {
+    const { detail } = currentPoints.point || {};
+    await Moralis.enableWeb3();
+    const options = {
+      type: "erc20",
+      receiver: data,
+      contractAddress: detail.token_address,
+      tokenId: parseInt(detail.token_id),
+      amount: Moralis.Units.Token(1, "18")
     };
 
+    // let result = await Moralis.transfer(options);
     const pointData = {
       eventId: _id,
       wallet: data
     };
+    await Moralis.transfer(options).then(()=> {
+      dispatch(updatePoint(pointData))
+      history.go()
+    }).catch(e => {
+      console.log(e);
+    })
+  }
+  const handleSendGift = async (data) => {
 
+    const { detail } = currentPoints.point || {};
+    console.log(detail);
+    await Moralis.enableWeb3();
+    const options = {
+      type: detail.contract_type.toLowerCase(),
+      receiver: data,
+      contractAddress: detail.token_address,
+      tokenId: parseInt(detail.token_id),
+    };
+      
+    // // let result = await Moralis.transfer(options);
+    const pointData = {
+      eventId: _id,
+      wallet: data
+    };
     await Moralis.transfer(options).then(()=> {
       dispatch(updatePoint(pointData))
       history.go()
@@ -120,9 +143,26 @@ const Status = () => {
               signer
           );
           try {
+
+            console.log(currentPoints.point.detail.token_address,
+              currentPoints.point.detail.token_id,
+              BigNumber.from(royalityValue),
+              BigNumber.from(fractionSupply + "000000000000000000"),
+              fractionName.toString(),
+              fractionSymbol.toString()
+              );
+
+              console.log(currentPoints.point.detail);
               
+              // contractAddress,
+              // BigNumber.from(nftId),
+              // BigNumber.from(royalty),
+              // BigNumber.from(supply),
+              // tokenName.toString(),
+              // tokenTicker.toString());
+
               const response = await contract.createFraction(currentPoints.point.detail.token_address,
-                                                            BigNumber.from(currentPoints.point.detail.token_id),
+                                                            currentPoints.point.detail.token_id,
                                                             BigNumber.from(royalityValue),
                                                             BigNumber.from(fractionSupply + "000000000000000000"),
                                                             fractionName.toString(),
@@ -140,6 +180,9 @@ const Status = () => {
               // setFractionIdStill(responseFractionID)
               console.log('response: ', responseFractionID);
               setFractionId(responseFractionID);
+              // call function here
+              // dispatch(updatePoint())
+              
           } catch (err) {
               console.log("error", err);
               console.log("address: ", currentPoints.point.detail.owner_of)
@@ -162,6 +205,7 @@ const Status = () => {
               // setWithdrawFractionAddress(response)
               setIsFractionAddress(true)
               console.log('response: ', response);
+              dispatch(updatePointFraction({id: currentPoints.point._id, fractionAddress: response}));
           } catch (err) {
               //console.log("error", err);
               console.log("accounts[0]: " + currentPoints.point.detail.owner_of)
@@ -207,7 +251,9 @@ const Status = () => {
             </div>
           </div> : ""}
 
-          {currentPoints && currentPoints.point && currentPoints.point.type == "FNFT" ? 
+
+
+          {currentPoints && currentPoints.point && currentPoints.point.type == "FNFT" && currentPoints.point.detail && typeof(currentPoints.point.detail.fractionAddress) == "undefined" ? 
           <>
             <div>
               <DefaultInput maxWidth={"300px"} onChangeValue={handleChangeName} placeholder={currentPoints.point.detail.name + " 1"} label="New Token Name *" required={true} />
@@ -225,7 +271,7 @@ const Status = () => {
           </>
           : ""}
 
-          {currentPoints && currentPoints.point && currentPoints.point.type == "FNFT" ? 
+          {currentPoints && currentPoints.point && currentPoints.point.type == "FNFT" && currentPoints.point.detail && typeof(currentPoints.point.detail.fractionAddress) == "undefined" ? 
           <>
           <div>
             <button style={isContractApproved ? {background: "#006DFF", color: "white"} : {}} onClick={() => handleApproveMainContract()} className={styles.fractionalizeNFT}>1 - Approve Contract NFT</button>
@@ -240,10 +286,16 @@ const Status = () => {
 
           {fractionAddress ? <p className={styles.fractionAddress}>Fraction Address: {fractionAddress}</p> : ""}
 
+          {currentPoints && currentPoints.point && currentPoints.point.detail && currentPoints.point.detail.fractionAddress ? 
+          <>
+          <p className={styles.fractionAddress}>Fraction Address: {currentPoints.point.detail.fractionAddress}</p>
+          <span className={styles.fractionAddressInformation}>⚠️ Your tokens are at this address, please use this address when adding custom tokens to your wallet to receive tokens.</span>
+          </> : ""}
+
           {currentPoints && currentPoints.point && currentPoints.point.detail && currentPoints.point.detail.description ? <p className={styles.detailDescription}>{currentPoints.point.detail.description}</p> : <p className={styles.detailDescription}>No description.</p>}
           
           {white_list ? white_list.length != 0 ?
-            <WhiteListTable callback={handleSendGift} users={white_list} type={currentPoints.point.type} /> 
+            <WhiteListTable callback={currentPoints.point.type == "NFT" ? handleSendGift : senffnft} users={white_list} type={currentPoints.point.type} /> 
             : 
             <div className={styles.noUser}>
               <h4>There is no user joined!</h4>

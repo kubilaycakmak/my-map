@@ -47,6 +47,13 @@ const updatePoint = async (data) => {
   return response.data;
 }
 
+const updatePointFraction = async (data) => {
+  const response = await axios.put(process.env.REACT_APP_API_URL + '/api/point/updatefractionalize', {
+    data
+  } , {header: authHeader () });
+  return response.data;
+}
+
 export default {
   setPoint,
   getPoint,
@@ -55,5 +62,6 @@ export default {
   getNFTPoint,
   getOwnEventPoint,
   getPointById,
-  updatePoint
+  updatePoint,
+  updatePointFraction
 };

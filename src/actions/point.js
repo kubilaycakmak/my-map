@@ -237,3 +237,35 @@ export const updatePoint = (data) => (dispatch) => {
         }
     );
 };
+
+export const updatePointFraction = (data) => (dispatch) => {
+    return PointService.updatePointFraction(data).then(
+        (data) => {
+        dispatch({
+            type: POINT_UPDATE_SUCCESS,
+            payload: { point: data },
+        });
+  
+        return Promise.resolve();
+        },
+        (error) => {
+        const message =
+            (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+            error.toString();
+  
+        dispatch({
+            type: POINT_UPDATE_FAIL,
+        });
+  
+        dispatch({
+            type: SET_MESSAGE,
+            payload: message,
+        });
+  
+        return Promise.reject();
+        }
+    );
+};

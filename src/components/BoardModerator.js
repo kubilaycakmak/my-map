@@ -62,7 +62,6 @@ const BoardModerator = () => {
         }
       });
 
-      console.log(currentPoints);
 
       if(currentPoints.points){
         currentPoints.points.forEach((mark, index) => {

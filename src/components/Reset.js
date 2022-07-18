@@ -59,7 +59,6 @@ const Reset = (props) => {
               setLoading(false);
             });    
         }else{
-            console.log('passwords are not same');
             setLoading(false);
         }
      
