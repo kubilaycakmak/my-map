@@ -13,28 +13,58 @@
         font-weight: 500;
         font-size: 16px;
         line-height: 24px;
-        /* identical to box height */
-        
         display: flex;
         align-items: center;
-        
-        /* Text/Dark */
-        
         color: #3C3C3C;
-        
-        
-        /* Inside auto layout */
-        
         flex: none;
         order: 1;
         flex-grow: 0;
     }
 }
-
-.active{
-    
-}
-
 .disable{
     opacity: .5;
+}
+
+@media only screen and (max-width: 768px) {
+    .bar{
+        min-width: 72px;
+        height: auto;
+        background: #FCFCFD;
+        padding: 18px;
+    }
+    .steps{
+        div{
+            margin: 40px 0;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 13px;
+            line-height: 24px;
+            display: flex;
+            align-items: center;
+            color: #3C3C3C;
+            flex: none;
+            order: 1;
+            flex-grow: 0;
+        }
+    }
+    .disableMobile{
+        opacity: .5;
+        width: 32px;
+        height: 32px;
+        justify-content: center;
+        background: #3C3C3C;
+        border-radius: 3px;
+        color: #FFFFFF !important;
+
+    }
+    .activeMobile{
+        opacity: 1;
+        width: 32px;
+        height: 32px;
+        justify-content: center;
+        background: #3C3C3C;
+        border-radius: 3px;
+        color: #FFFFFF !important; 
+    }
 }
