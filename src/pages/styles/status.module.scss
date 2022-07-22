@@ -310,7 +310,8 @@
     
     .fractionalizeNFT{
         border: none;
-        height: 48px;
+        height: auto;
+        max-width: auto !important;
         width: auto !important;
         padding: 12px 32px;
         margin-top: 24px;

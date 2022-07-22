@@ -19,6 +19,7 @@ function FileUplod({ dataFromFileDrop }) {
     dataFromFileDrop(data);
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({accept: {'image/*': []}, onDrop})
+  let width = window.innerWidth;
   // const files = acceptedFiles.map(file => <li key={file.path}>{file.path}</li>);
 
 
@@ -26,9 +27,10 @@ function FileUplod({ dataFromFileDrop }) {
     <div className={styles.fileupload} {...getRootProps()}>
       <input {...getInputProps()} />
       {
+        
         isDragActive ?
-          <p>Drop the files here ...</p> :
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p>{width < 768 ? "" : "Drop the files here ..."}</p> :
+          <p>{width < 768 ? "Drop or Select" : "Drag 'n' drop some files here, or click to select files"}</p>
       }
       {
         file[0] ? 

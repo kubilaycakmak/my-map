@@ -1,8 +1,10 @@
 .rainbow-p-horizontal_medium{
     width: 328px;
     height: 48px;
-    margin-bottom: 32px;
+    margin-bottom: 48px !important;
+    
     label{
+        margin-bottom: 8px !important;
         align-self: flex-start;
     }
     select{

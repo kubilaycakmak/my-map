@@ -17,7 +17,6 @@ import styles from './styles/createevent.module.scss'
 import axios from 'axios'
 import queryString from 'query-string';
 import RewardsTable from '../components/table/RewardsTable';
-import RewardsPreview from '../components/table/RewardsPreview';
 import { setNFTPoint, setPoint } from '../actions/point';
 import EventSuccess from '../pages/EventStatus/EventSuccess'
 
@@ -111,7 +110,6 @@ const CreateEvent = () => {
     setDescription(event.target.value);
   }
   const handleChangeEventImage = (data) => {
-    console.log(data);
     setEventImage(data);
   }
   const handleChangeAddress = (data) => {
@@ -123,19 +121,15 @@ const CreateEvent = () => {
   }
   const handleChangeStartDate = (data) => {
     setStartDateTS(moment(data).format("YYYY-MM-DD"));
-    console.log(moment(data).format("YYYY-MM-DD"));
   }
   const handleChangeEndDate = (data) => {
     setEndDateTS(moment(data).format("YYYY-MM-DD"));
-    console.log(moment(data).format("YYYY-MM-DD"));
   }
   const handleChangeEndHour = (data) => {
     setEndHour(data);
-    console.log(data);
   } 
   const handleChangeStartHour = (data) => {
     setStartHour(data);
-    console.log(data);
   }
   const handleChangeType = (data) => {
     setType(data.target.value);
@@ -144,7 +138,6 @@ const CreateEvent = () => {
     setLimit(data.target.value)
   }
   const handleChangeNFT = (data) => {
-    console.log(data);
     setNFT(data);
   }
   const handleChangeRewardUrl = (data) => {
@@ -154,7 +147,6 @@ const CreateEvent = () => {
     setWebsiteUrl(data.target.value)
   }
   const handleChangeCoverImage = (data) => {
-    console.log(data);
     setCover(data);
   }
   const handleGiveawayDescription = (data) => {
@@ -337,8 +329,10 @@ const CreateEvent = () => {
                 <h3>Event Location</h3>
                 <p>Select scheduled events or create your own to let attendees know where to show up.</p>
                 <div className={styles.form}>
-                  <CustomButtonLight callback={optionCallback} option={option} label={"Existing Event"}/>
-                  <span style={{marginLeft: "32px"}}><CustomButtonLight callback={optionCallback} option={option} label={"Custom Location"}/></span>
+                  <div className={styles.optionSelection}>
+                    <CustomButtonLight callback={optionCallback} option={option} label={"Existing Event"}/>
+                    <span style={{marginLeft: "32px"}}><CustomButtonLight callback={optionCallback} option={option} label={"Custom Location"}/></span>
+                  </div>
 
                   {option == "Custom Location" 
                   ? 
@@ -357,11 +351,11 @@ const CreateEvent = () => {
 
                     <div className={styles.dateSection}>
                       <div><DateInput error={error} getDate={handleChangeStartDate} label={"Start Date"}/></div>
-                      <div className={styles.dateInput}><TimeInput error={error} getHour={handleChangeStartHour} label={"Start Time"}/></div>
+                      <div className={styles.dateInput}><TimeInput error={error} endTime={false} getHour={handleChangeStartHour} label={"Start Time"}/></div>
                     </div>
                     <div className={styles.dateSection}>
                       <div><DateInput error={error} getDate={handleChangeEndDate} label={"End Date"}/></div>
-                      <div className={styles.dateInput}><TimeInput error={error} getHour={handleChangeEndHour} label={"End Time"}/></div>
+                      <div className={styles.dateInput}><TimeInput error={error} endTime={true} getHour={handleChangeEndHour} label={"End Time"}/></div>
                     </div>
                   </>
                   : ""
@@ -396,7 +390,7 @@ const CreateEvent = () => {
                 : <DefaultInput error={error} onChangeValue={handleChangeLimit} forceValue={type} placeholder="Enter quantity" label="Giveaway amount *"/>}
                 
                 {type == "NFT" || type == "FNFT" ? <Wallet onChangeValue={handleChangeNFT} type={type} /> : 
-                <>
+                <div className={styles.promo}>
                   <h3>Links</h3>
                   <DefaultInput error={error} onChangeValue={handleChangeRewardUrl} placeholder="Enter URL" label="Reward Download URL *" />
                   <DefaultInput error={error} onChangeValue={handleChangeWebsiteUrl} placeholder="Enter URL" label="Website URL *"/>
@@ -405,9 +399,11 @@ const CreateEvent = () => {
                   <p>This image will appear next to your listing. Use a high quality image 
                     (size x size). required *</p>
                   <FileUplod dataFromFileDrop={handleChangeCoverImage}/>
-                </>}
+
+                  <DefaultInput error={error} onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/>
+                </div>}
                 
-                <DefaultInput error={error} onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/>
+                {type == "NFT" || type == "FNFT" ? <DefaultInput error={error} onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/> : "" }
 
                 <div className={styles.bottomNavigation}>
                 <div className={styles.bottomNavigationOuter}>
@@ -425,7 +421,7 @@ const CreateEvent = () => {
               <a onClick={() => setStep(step - 1)}>Previous</a>
               <h1 style={{marginBottom: "48px", marginTop: "24px"}}>Review & Publish</h1>
             </div>
-            <div className={styles.body}>
+            <div className={styles.bodyRewards}>
               <RewardsPreviewCard data={data} image={eventImage} />
               <h3 style={{marginTop: "48px"}}>Rewards</h3>
               {/* <RewardsPreview /> */}

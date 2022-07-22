@@ -18,6 +18,7 @@ const NFTTable = ({ wallet, callback, typeNFT }) => {
   const fetchNFTMetadata = async (wallet) => {
 
     if(wallet) {
+      console.log(wallet);
       const options = {
         chain: typeNFT == "NFT" ? "eth" : "rinkeby",
         address: wallet,
@@ -78,7 +79,7 @@ const NFTTable = ({ wallet, callback, typeNFT }) => {
                     nftList.map((nft, index) => {
                         return (
                             <tr  className={selectedNFTs.includes(nft.token_id) ? styles.nftTableTrActive : styles.nftTableTr} key={index}>
-                                <td>{ selectedNFTs.includes(nft.token_id) ? <span  onClick={() => deleteNFTfromSelectedList(nft)}>decline</span> : ""}<img alt={nft.name} src={nft.metadata ? typeNFT == "NFT" ? nft.metadata.image : "" : ""} /></td>
+                                <td>{ selectedNFTs.includes(nft.token_id) ? <span  onClick={() => deleteNFTfromSelectedList(nft)}>decline</span> : ""}<img alt={nft.name} src={nft.metadata ? typeNFT == "NFT" ? nft.metadata.image : require("../../pages/default.png") : require("../../pages/default.png")} /></td>
                                 <td onClick={() => addNFTtoSelectedList(nft)}><h3>{nft.name} [{nft.amount}]</h3></td>
                             </tr>
                         )

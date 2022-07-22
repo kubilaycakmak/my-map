@@ -8,7 +8,6 @@ import { getPointById, updatePoint, updatePointFraction } from '../actions/point
 import WhiteListTable from '../components/table/WhiteListTable';
 import Moralis from "moralis";
 import moment from 'moment';
-import { type } from '@testing-library/user-event/dist/type';
 import { ethers, BigNumber } from 'ethers';
 import NFTGenerator from '../json/NFTGenerator.json';
 import MainContract from '../json/MainContract.json';

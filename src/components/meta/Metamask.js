@@ -33,6 +33,7 @@ const Metamask = ({ onChangeHandler }) => {
         eth_accounts: {},
       }]})
       if (acc.length){
+        console.log(acc);
         setUserAccount(acc[0].caveats[0].value[0])
         onChangeHandler(acc[0].caveats[0].value[0])
         dispatch(setWalletAddress(currentUser.email, acc[0].caveats[0].value[0]));

@@ -2,10 +2,10 @@ import moment from 'moment';
 import React, { useState } from 'react'
 import { TimePicker } from 'react-rainbow-components';
 import './timeinput.scss'
-const TimeInput = ({label, getHour, error}) => {
+const TimeInput = ({label, getHour, error, endTime}) => {
 
     const [value, setValue] = useState({
-        time: moment().format("HH:mm")
+        time: endTime ? moment().add(1, "hour").format("HH:mm") : moment().format("HH:mm")
         // "13:32",
     });
     

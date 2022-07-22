@@ -71,6 +71,35 @@
         color: #686868;
     }
 }
+
+.bodyRewards{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    h3{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 48px;
+        display: flex;
+        align-items: center;
+        color: #3C3C3C;
+    }
+    p{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #686868;
+    }
+}
+
 .form{
     max-width: 668px;
     width: 100%;
@@ -181,6 +210,33 @@
 }
 
 @media only screen and (max-width: 768px) {
+    .bodyRewards{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 120px;
+        h3{
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 32px;
+            line-height: 48px;
+            display: flex;
+            align-items: center;
+            color: #3C3C3C;
+        }
+        p{
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            display: flex;
+            align-items: center;
+            color: #686868;
+        }
+    }
     .event{
         background-color: #FFFFFF;
         position: relative;
@@ -191,12 +247,10 @@
         justify-content: start;
         align-items: flex-start;
     }
-    
     .eventOutter{
         width: 100%;
         padding: 24px 32px 0 24px !important;
     }
-    
     .header{
         display: flex;
         flex-direction: column;
@@ -225,19 +279,19 @@
             cursor: default;
         }
     }
-    
     .body{
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-    
+        margin-bottom: 120px;
+        // height: auto !important;
         h3{
             font-family: 'Poppins';
             font-style: normal;
             font-weight: 500;
-            font-size: 32px;
-            line-height: 48px;
+            font-size: 30px;
+            line-height: 40px;
             display: flex;
             align-items: center;
             color: #3C3C3C;
@@ -253,9 +307,10 @@
             color: #686868;
         }
     }
+
     .form{
         max-width: 668px;
-        width: 100%;
+        width: 100% !important;
     }
     
     .divider{
@@ -263,36 +318,63 @@
         margin: 48px 0;
         width: 100%;
     }
+
+    .promo{
+        margin-bottom: 120px;
+    }
     
     .dateSection{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        &:last-child{
+            margin-bottom: 120px;
+        }
     }
     
     .dateInput{
-        margin-left: 12px !important;
+        margin-left: 0 !important;
+        
     }
     
     .customInputSize{
         width: 328px !important;
+    }
+
+    .optionSelection{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: flex-start;
+        width: 100%;
+        button{
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
+
+        }
+        span{
+            margin-top: 12px;
+            margin-left: 0 !important;
+        }
     }
     
     .bottomNavigation{
         
         box-sizing: border-box;
         position: fixed;
-    
-        width: calc(100% - 298px);
+        max-width: 100%;
+        width: 100% !important;
         height: 80px;
-        left: 298px;
+        left: 0;
         bottom: 0px;
         /* White */
     
         background: #FFFFFF;
         /* Gray2 */
         border-top: 1px solid #F2F2F2;
-        padding-left: 88px;
+        padding-left: 96px;
         padding-top: 16px;
+        padding-right: 32px;
         z-index: 100;
     }
     
@@ -325,6 +407,7 @@
             flex: none;
             order: 0;
             flex-grow: 0;
+            border: none !important;
         }
     }
     
