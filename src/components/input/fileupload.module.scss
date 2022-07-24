@@ -1,5 +1,4 @@
 .fileupload{
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,6 +9,15 @@
     background: #FCFCFD;
     box-shadow: 0px 1px 5px 1px rgba(86, 86, 86, 0.15);
     border-radius: 3px;
+}
+@media only screen and (max-width: 768px) {
+    fileupload{
+        width: calc(100% + 32px) !important;
+    }
+    .coverImagePreview{
+        width: calc(100% + 32px) !important;
+        height: 150px;
+    }
 }
 
 .coverImagePreview{
