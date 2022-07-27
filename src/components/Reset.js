@@ -5,9 +5,9 @@ import '../App.css';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
+import styles from './reset.module.scss'
 import { reset } from "../actions/auth";
-
+import { useHistory } from "react-router-dom";
 const required = (value) => {
   if (!value) {
     return (
@@ -21,7 +21,7 @@ const required = (value) => {
 const Reset = (props) => {
   const form = useRef();
   const checkBtn = useRef();
-
+  const history = useHistory();
   const [password1, setPasswor1] = useState("");
   const [password2, setPassword2] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,17 +47,17 @@ const Reset = (props) => {
     setLoading(true);
 
     form.current.validateAll();
-
     if (checkBtn.current.context._errors.length === 0) {
         if(password1 === password2){
-            dispatch(reset(password1, props.location.pathname.split('/')[2]))
-            .then(() => {
-              props.history.push("/login");
-              window.location.reload();
-            })
-            .catch(() => {
-              setLoading(false);
-            });    
+          console.log(password1, props.location.pathname.split('/')[2]);
+          dispatch(reset(password1, props.location.pathname.split('/')[2]))
+          .then(() => {
+            history.push("/login");
+            // window.location.reload();
+          })
+          .catch(() => {
+            setLoading(false);
+          });    
         }else{
             setLoading(false);
         }
@@ -68,15 +68,15 @@ const Reset = (props) => {
   };
 
   return (
-    <div className="col-md-12 page">
-      <div className="card card-container">
+    <div className={styles.forget}>
+      <div className={styles.forgetOuter}>
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
             <label htmlFor="username">Password</label>
             <Input
-              type="text"
+              type="password"
               className="form-control"
-              name="email"
+              name="password1"
               value={password1}
               onChange={onChangePassword1}
               validations={[required]}
@@ -88,7 +88,7 @@ const Reset = (props) => {
             <Input
               type="password"
               className="form-control"
-              name="password"
+              name="password2"
               value={password2}
               onChange={onChangePassword2}
               validations={[required]}

@@ -15,7 +15,7 @@ const Event = () => {
   const { isLoggedIn } = useSelector(state => state.auth);
   useEffect(() => {
     if(currentUser){
-      dispatch(getOwnEventPoint(currentUser.id))
+      dispatch(getOwnEventPoint(currentUser.fullName))
     }
     console.log(currentPoints.points);
   }, [])

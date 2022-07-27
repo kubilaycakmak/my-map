@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import '../App.css';
-
+import styles from './forgetsuccess.module.scss'
 import { forgot } from "../actions/auth";
 import { NavLink } from "react-router-dom";
 
@@ -17,14 +17,12 @@ const required = (value) => {
 const ForgetSuccess = () => {
 
   return (
-    <div className="col-md-12 page">
-      <div className="card card-container">
-        <div>
+    <div className={styles.forget}>
+        <h3>
             We send you email, please check your email!
-        </div>
-        <NavLink to={"/login"}>Back to Login</NavLink>
+        </h3>
+        <NavLink className={styles.nextButton} to={"/login"}>Back to Login</NavLink>
       </div>
-    </div>
   );
 };
 

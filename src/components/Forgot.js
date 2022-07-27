@@ -5,6 +5,7 @@ import '../App.css';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import styles from './forget.module.scss'
 
 import { forgot } from "../actions/auth";
 
@@ -59,10 +60,10 @@ const Forgot = (props) => {
   };
 
   return (
-    <div className="col-md-12 page">
-      <div className="card card-container">
+    <div className={styles.forget}>
+        <h3>Forget Password</h3>
         <Form onSubmit={handleLogin} ref={form}>
-          <div className="form-group">
+          <div className={styles.forgetOuter}>
             <label htmlFor="username">Email</label>
             <Input
               type="text"
@@ -74,7 +75,7 @@ const Forgot = (props) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.forgetOuter}>
             <button className="btn btn-dark btn-block" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
@@ -92,7 +93,6 @@ const Forgot = (props) => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-      </div>
     </div>
   );
 };

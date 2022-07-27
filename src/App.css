@@ -8,6 +8,10 @@
   }
 }
 
+img{
+  object-fit: cover;
+}
+
 .App-header {
   /* min-height: 94vh; */
   display: flex;

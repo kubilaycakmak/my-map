@@ -4,7 +4,7 @@ import "./selectinput.scss"
 const SelectInput = ({label, getType, error}) => {
     const options = [
         { value: 'PROMO', label: 'Promo', color:"#006DFF" },
-        { value: 'FNFT', label: 'F-NFT', color:"#F2C94C" },
+        { value: 'FNFT', label: 'Fractional NFT', color:"#F2C94C" },
         { value: 'NFT', label: 'NFT', color:"#219653" },
         
     ];

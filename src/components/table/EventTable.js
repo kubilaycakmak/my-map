@@ -26,7 +26,7 @@ const EventTable = ({ events }) => {
           events.map((item, index) => {
             return (
               <tr key={index} className={styles.tr} onClick={() => history.push(`/event-action?id=${item._id}`)}>
-                <td className={styles.tdContent}><TableBodyCard img={require("../../pages/test.jpg")} name={item.title} date={item.startDateTS} address={item.address}/></td>
+                <td className={styles.tdContent}><TableBodyCard img={item.detail?.image} name={item.title} date={item.startDateTS} address={item.address}/></td>
                 <td className={styles.tdContent}><TableRewardsCard type={item.type}/></td>
                 <td className={styles.tdContent}><TableCreatedAtCard date={item.createdAt}/></td>
                 <td className={styles.tdContent}><p>{item.white_list.length} joined</p></td>

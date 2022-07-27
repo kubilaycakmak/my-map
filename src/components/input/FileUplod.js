@@ -1,6 +1,8 @@
+import { render } from '@testing-library/react';
 import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import styles from './fileupload.module.scss'
+
 function FileUplod({ dataFromFileDrop }) {
 
   const [file, setFile] = useState([]);
@@ -12,16 +14,26 @@ function FileUplod({ dataFromFileDrop }) {
     })))
 
     acceptedFiles.map(file => {
-      data.preview = file.preview;
-      data.file = file;
+      data = file;
     })
-
     dataFromFileDrop(data);
+    // getBase64(data);
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({accept: {'image/*': []}, onDrop})
   let width = window.innerWidth;
   // const files = acceptedFiles.map(file => <li key={file.path}>{file.path}</li>);
 
+  // const getBase64 = (file) => {
+  //   var reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onload = function () {
+  //     dataFromFileDrop(reader.result);
+  //   };
+
+  //   reader.onerror = function (error) {
+  //     console.log('Error: ', error);
+  //   };
+  // }
 
   return (
     <div className={styles.fileupload} {...getRootProps()}>

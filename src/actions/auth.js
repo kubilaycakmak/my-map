@@ -16,8 +16,8 @@ import {
 import AuthService from "../services/auth.service";
 import { accessToken } from "mapbox-gl";
   
-export const register = (fullName, username, email, password, type, walletAddress) => (dispatch) => {
-    return AuthService.register(fullName, username, email, password, type, walletAddress).then(
+export const register = (fullName, email, password, type, walletAddress) => (dispatch) => {
+    return AuthService.register(fullName, email, password, type, walletAddress).then(
       (response) => {
         dispatch({
           type: REGISTER_SUCCESS,

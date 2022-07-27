@@ -1,5 +1,5 @@
 import React from 'react'
-import './google.css'
+import './google.scss'
 import { GoogleLogin } from '@react-oauth/google';
 
 import axios from 'axios';
@@ -11,17 +11,13 @@ function GoogleSignup() {
 
   return (
     <GoogleLogin
+      width='450'
       onSuccess={credentialResponse => {
         dispatch(GoogleRegister(credentialResponse, "mod"))
       }}
       onError={() => {
         console.log('Login Failed');
       }}
-      useOneTap
-      text="signup_with"
-      theme='filled_black'
-      size='large'
-      shape="square"
     >
       <span>Sign up with Google</span>
     </GoogleLogin>

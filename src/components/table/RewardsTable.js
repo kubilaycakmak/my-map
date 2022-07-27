@@ -16,7 +16,7 @@ const RewardsTable = ({ rewards, cover }) => {
           rewards 
           ? 
           <tr className={styles.tr}>
-                <td>{ rewards.detail ? <img src={cover.preview}/> : "" } <span>{rewards.type}</span></td>
+                <td>{ rewards.detail ? <img src={rewards.type == "PROMO" ? cover.preview : cover}/> : "" } <span>{rewards.type}</span></td>
                 { rewards.type == "PROMO" && rewards.detail ? <td>{rewards.detail.download_url}</td> : ""}
                 { rewards.type == "NFT" || rewards.type == "FNFT" && rewards.detail ? <td>{rewards.detail.name}</td> : ""}
               </tr>

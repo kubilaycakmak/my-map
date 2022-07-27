@@ -1,4 +1,4 @@
-.login{
+.forget{
     background: #2F80ED;
     height: 100%;
     min-height: 94.5vh;
@@ -13,8 +13,18 @@
         height: 136px;
         margin-bottom: 32px;
     }
+    h3{
+        color: white !important;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        text-align: center;
+        width: 100%;
+        max-width: 450px;
+        margin-bottom: 28px;
+    }
 }
-.headerLogin{
+.headerForget{
     padding-bottom: 24px;
     border-bottom: 1px solid white;
     margin-bottom: 12px;
@@ -22,7 +32,7 @@
     justify-content: center;
     margin-top: 12px;
 }
-.loginHeader{
+.forgetHeader{
     color: white !important;
     font-family: 'Poppins';
     font-style: normal;
@@ -39,7 +49,7 @@
     font-weight: 500;
 }
 
-.loginOuter{
+.forgetOuter{
     width: 30%;
     min-width: 450px;
     label{

@@ -17,8 +17,11 @@ import styles from './styles/createevent.module.scss'
 import axios from 'axios'
 import queryString from 'query-string';
 import RewardsTable from '../components/table/RewardsTable';
-import { setNFTPoint, setPoint } from '../actions/point';
+import { setNFTPoint, setPoint, getOwnEventPoint, getPoint } from '../actions/point';
 import EventSuccess from '../pages/EventStatus/EventSuccess'
+import PointService from "../services/point.service";
+import EventFailed from './EventStatus/EventFailed';
+import Spinner from 'react-bootstrap/Spinner';
 
 const CreateEvent = () => {
   
@@ -29,11 +32,11 @@ const CreateEvent = () => {
   const [step, setStep] = useState(0);
   const [isSuccess, setIsSuccess] = useState(true);
   const [option, setOption] = useState("Custom Location");
-
+  const [errorPageInfo, setErrorPageInfo] = useState();
   const [title, setTitle] = useState();
-  const [author, setAuthor] = useState(currentUser.id);
+  const [author, setAuthor] = useState(currentUser.fullName);
   const [description, setDescription] = useState();
-  const [eventImage, setEventImage] = useState({preview: "", file: {}});
+  const [eventImage, setEventImage] = useState("");
   const [address, setAddress] = useState();
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
@@ -46,10 +49,12 @@ const CreateEvent = () => {
   const [nft, setNFT] = useState();
   const [rewardUrl, setRewardUrl] = useState();
   const [websiteUrl, setWebsiteUrl] = useState();
-  const [cover, setCover] = useState({fileName: "", file:""});
+  const [cover, setCover] = useState();
   const [rewardDescription, setRewardDescription] = useState();
   const [error, setError] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
   const callback = (step) => {
     setStep(step)
   }   
@@ -69,7 +74,7 @@ const CreateEvent = () => {
   
   const [data, setData] = useState({
     title: title,
-    author: currentUser.id,
+    author: currentUser.fullName,
     description: description,
     event_image: eventImage,
     lng: lng,
@@ -110,6 +115,7 @@ const CreateEvent = () => {
     setDescription(event.target.value);
   }
   const handleChangeEventImage = (data) => {
+    console.log(data);
     setEventImage(data);
   }
   const handleChangeAddress = (data) => {
@@ -138,6 +144,7 @@ const CreateEvent = () => {
     setLimit(data.target.value)
   }
   const handleChangeNFT = (data) => {
+    data.image = data.metadata.image;
     setNFT(data);
   }
   const handleChangeRewardUrl = (data) => {
@@ -147,6 +154,7 @@ const CreateEvent = () => {
     setWebsiteUrl(data.target.value)
   }
   const handleChangeCoverImage = (data) => {
+    console.log(data);
     setCover(data);
   }
   const handleGiveawayDescription = (data) => {
@@ -154,7 +162,7 @@ const CreateEvent = () => {
   }
   let errorMap = [];
 
-  const handleChangePage = (step) => {
+  const handleChangePage = async (step) => {
     if(step == 0){
       setError([]);
       if(title && author && description){
@@ -187,6 +195,7 @@ const CreateEvent = () => {
       setError([]);
       if(type == "PROMO"){
         if(type && limit && rewardUrl && websiteUrl && cover){
+          console.log('true');
           errorMap = [];
           setError([]);
           setData({
@@ -210,14 +219,15 @@ const CreateEvent = () => {
               description: rewardDescription
             }
           })
-
           setStep(3)
         }else{
+          console.log('false');
           if(!type) errorMap.push("Reward Type")
           if(!limit) errorMap.push("Giveaway amount *")
           if(!rewardUrl) errorMap.push("Reward Download URL *")
           if(!websiteUrl) errorMap.push("Website URL *")
           if(!cover) errorMap.push("cover")
+          console.log(errorMap);
           setError(errorMap)
         }
       }else if(type == "NFT"){
@@ -275,172 +285,228 @@ const CreateEvent = () => {
     }else if(step == 3){
       console.log(data);
       if(type == "PROMO"){
-        dispatch(setPoint(data));
+        
+        
+        data.event_image = await uploadImage(eventImage);
+        data.detail.image = await uploadImage(cover);
+        // setIsLoading(false)
+        PointService.setPoint(data).then(
+          (res) => {
+            console.log(res);
+            setStep(4)
+          }
+        ).catch((err) => {
+          setErrorPageInfo(err);
+          setStep(5);
+        });
         setStep(4)
       }else if(type == "NFT" || type == "FNFT"){
-        console.log(data);
-        dispatch(setNFTPoint(data));
-        setStep(4)
+
+        data.event_image = await uploadImage(eventImage);
+
+        PointService.setNFTPoint(data).then(
+          (res) => {
+            console.log(res);
+            setStep(4)
+          }
+        ).catch(
+          (err) => {
+            setErrorPageInfo(err);
+            setStep(5);
+          }
+        )
+        // dispatch(setNFTPoint(data));
+        // setStep(4)
       }
+    }
+  }
+
+  const uploadImage = async (file)  => {
+    let imageUrl = "";
+    try {
+      if(file){
+        setIsLoading(true)
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "geomapImage");
+        const dataRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/kubilayckmk/image/upload",
+          formData
+        )
+
+        imageUrl = dataRes.data.url;
+        console.log(imageUrl);
+        setIsLoading(false)
+        return imageUrl;
+      }else{
+        return ""
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   return (
     <div className={styles.event}>
-      <EventDetailsBar step={step}/>
-      <div className={styles.eventOutter}>
-        {step == 0
-        ?
-        <div id="first-step">
-            <div className={styles.header}>
-            <h1>Event Details</h1>
-            </div>
-            <div className={styles.body}>
-                <h3>Basic Info</h3>
-                <p>Add details about your event to make it stand out.</p>
-                <div className={styles.form}>
-                    <DefaultInput error={error} required={true} onChangeValue={handleChangeName} placeholder="Name your event here" label="Event name *"/>
-                    <DefaultInput error={error} disable={true} placeholder={currentUser.fullName} label="Organizer *"/>
-                    <DefaultInput error={error} required={true} onChangeValue={handleChangeDescription} type="description" placeholder="Write a brief summary about your event to get your attendees excited." label="Description *"/>
-                    <div className={styles.divider}></div>
-                </div>
-                <h3>Event Image (Optional)</h3>
-                <p>This image will appear next to your listing. Use a high quality image (size x size).</p>
-                <div className={styles.form}>
-                    <FileUplod dataFromFileDrop={handleChangeEventImage} />
-                </div>
-            </div>
-            <div className={styles.bottomNavigation}>
-            <div className={styles.bottomNavigationOuter}>
-                <NavLink to={"/event"}>Discard</NavLink>
-                <button className={styles.button} onClick={() => handleChangePage(step)}><span>Next</span></button>
-            </div>
-    </div>
-        </div>
-        :
-        step == 1
-        ?
-        <div id="second-step">
-            <div className={styles.header}>
-              <a onClick={() => setStep(step - 1)}>Previous</a>
-              <h1>Distribution Options</h1>
-            </div>
-            <div className={styles.body}>
-                <h3>Event Location</h3>
-                <p>Select scheduled events or create your own to let attendees know where to show up.</p>
-                <div className={styles.form}>
-                  <div className={styles.optionSelection}>
-                    <CustomButtonLight callback={optionCallback} option={option} label={"Existing Event"}/>
-                    <span style={{marginLeft: "32px"}}><CustomButtonLight callback={optionCallback} option={option} label={"Custom Location"}/></span>
+        { isLoading && <div className={styles.loading}><Spinner animation="border" role="status" size="lg"></Spinner></div>}
+        <EventDetailsBar step={step}/>
+        <div className={styles.eventOutter}>
+          {step == 0
+          ?
+          <div id="first-step">
+              <div className={styles.header}>
+              <h1>Event Details</h1>
+              </div>
+              <div className={styles.body}>
+                  <h3>Basic Info</h3>
+                  <p>Add details about your event to make it stand out.</p>
+                  <div className={styles.form}>
+                      <DefaultInput error={error} required={true} onChangeValue={handleChangeName} placeholder="Name your event here" label="Event name *"/>
+                      <DefaultInput error={error} disable={true} placeholder={currentUser.fullName} label="Organizer *"/>
+                      <DefaultInput error={error} required={true} onChangeValue={handleChangeDescription} type="description" placeholder="Write a brief summary about your event to get your attendees excited." label="Description *"/>
+                      <div className={styles.divider}></div>
                   </div>
-
-                  {option == "Custom Location" 
-                  ? 
-                  <>
-                    
-                    {isLocationSelected ? 
-                    <>
-                      <div style={{marginTop: "24px"}}>
-                        <p><b>Address: </b> {address}</p>
-                      </div>
-                    </>
-                    : <SearchAddressInputWithMap error={error} getAddress={handleChangeAddress} getLatLng={handleChangeLatLng}/> }
-                    
-                    <h3 style={{marginTop: "24px"}}>Date and Time</h3>
-                    <p>Select scheduled events or create your own to let attendees know where to show up.</p>
-
-                    <div className={styles.dateSection}>
-                      <div><DateInput error={error} getDate={handleChangeStartDate} label={"Start Date"}/></div>
-                      <div className={styles.dateInput}><TimeInput error={error} endTime={false} getHour={handleChangeStartHour} label={"Start Time"}/></div>
-                    </div>
-                    <div className={styles.dateSection}>
-                      <div><DateInput error={error} getDate={handleChangeEndDate} label={"End Date"}/></div>
-                      <div className={styles.dateInput}><TimeInput error={error} endTime={true} getHour={handleChangeEndHour} label={"End Time"}/></div>
-                    </div>
-                  </>
-                  : ""
-                  }
-                </div>
-            </div>
-            <div className={styles.bottomNavigation}>
+                  <h3>Event Image (Optional)</h3>
+                  <p>This image will appear next to your listing. Use a high quality image (size x size).</p>
+                  <div className={styles.form}>
+                      <FileUplod dataFromFileDrop={handleChangeEventImage} />
+                  </div>
+              </div>
+              <div className={styles.bottomNavigation}>
               <div className={styles.bottomNavigationOuter}>
                   <NavLink to={"/event"}>Discard</NavLink>
                   <button className={styles.button} onClick={() => handleChangePage(step)}><span>Next</span></button>
               </div>
-            </div>
-        </div>
-        : 
-        step == 2
-        ?
-        <div id="third-step">
-            <div className={styles.header}>
-              <a onClick={() => setStep(step - 1)}>Previous</a>
-              <h1>Rewards</h1>
-            </div>
-            <div className={styles.body}>
-                <h3>Reward Details</h3>
-                <p>Select the type of rewards your attendees will receive.</p>
-                <div className={styles.form}>
-                  <SelectInput error={error} getType={handleChangeType} label={"Reward Type"} />
-                </div>
-                <h3>Number of Giveaways</h3>
-                <p>Set the limit of how many prizes are to be given out to attendees.</p>
-                {type == "NFT" 
-                ? <DefaultInput error={error} disable={true} onChangeValue={handleChangeLimit} forceValue={type} placeholder="1" label="Giveaway amount *"/> 
-                : <DefaultInput error={error} onChangeValue={handleChangeLimit} forceValue={type} placeholder="Enter quantity" label="Giveaway amount *"/>}
-                
-                {type == "NFT" || type == "FNFT" ? <Wallet onChangeValue={handleChangeNFT} type={type} /> : 
-                <div className={styles.promo}>
-                  <h3>Links</h3>
-                  <DefaultInput error={error} onChangeValue={handleChangeRewardUrl} placeholder="Enter URL" label="Reward Download URL *" />
-                  <DefaultInput error={error} onChangeValue={handleChangeWebsiteUrl} placeholder="Enter URL" label="Website URL *"/>
+          </div>
+          </div>
+          :
+          step == 1
+          ?
+          <div id="second-step">
+              <div className={styles.header}>
+                <a onClick={() => setStep(step - 1)}>Previous</a>
+                <h1>Distribution Options</h1>
+              </div>
+              <div className={styles.body}>
+                  <h3>Event Location</h3>
+                  <p>Select scheduled events or create your own to let attendees know where to show up.</p>
+                  <div className={styles.form}>
+                    <div className={styles.optionSelection}>
+                      <CustomButtonLight callback={optionCallback} option={option} label={"Existing Event"}/>
+                      <span style={{marginLeft: "32px"}}><CustomButtonLight callback={optionCallback} option={option} label={"Custom Location"}/></span>
+                    </div>
 
-                  <h3>Upload Cover Artwork</h3>
-                  <p>This image will appear next to your listing. Use a high quality image 
-                    (size x size). required *</p>
-                  <FileUplod dataFromFileDrop={handleChangeCoverImage}/>
+                    {option == "Custom Location" 
+                    ? 
+                    <>
+                      
+                      {isLocationSelected ? 
+                      <>
+                        <div style={{marginTop: "24px"}}>
+                          <p><b>Address: </b> {address}</p>
+                        </div>
+                      </>
+                      : <SearchAddressInputWithMap error={error} getAddress={handleChangeAddress} getLatLng={handleChangeLatLng}/> }
+                      
+                      <h3 style={{marginTop: "24px"}}>Date and Time</h3>
+                      <p>Select scheduled events or create your own to let attendees know where to show up.</p>
 
-                  <DefaultInput error={error} onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/>
-                </div>}
-                
-                {type == "NFT" || type == "FNFT" ? <DefaultInput error={error} onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/> : "" }
-
-                <div className={styles.bottomNavigation}>
+                      <div className={styles.dateSection}>
+                        <div><DateInput error={error} getDate={handleChangeStartDate} label={"Start Date"}/></div>
+                        <div className={styles.dateInput}><TimeInput error={error} endTime={false} getHour={handleChangeStartHour} label={"Start Time"}/></div>
+                      </div>
+                      <div className={styles.dateSection}>
+                        <div><DateInput error={error} getDate={handleChangeEndDate} label={"End Date"}/></div>
+                        <div className={styles.dateInput}><TimeInput error={error} endTime={true} getHour={handleChangeEndHour} label={"End Time"}/></div>
+                      </div>
+                    </>
+                    : ""
+                    }
+                  </div>
+              </div>
+              <div className={styles.bottomNavigation}>
                 <div className={styles.bottomNavigationOuter}>
                     <NavLink to={"/event"}>Discard</NavLink>
                     <button className={styles.button} onClick={() => handleChangePage(step)}><span>Next</span></button>
                 </div>
               </div>
-            </div>
-        </div>
-        : 
-        step == 3
-        ? 
-        <div id="fourth-step">
-            <div className={styles.header}>
-              <a onClick={() => setStep(step - 1)}>Previous</a>
-              <h1 style={{marginBottom: "48px", marginTop: "24px"}}>Review & Publish</h1>
-            </div>
-            <div className={styles.bodyRewards}>
-              <RewardsPreviewCard data={data} image={eventImage} />
-              <h3 style={{marginTop: "48px"}}>Rewards</h3>
-              {/* <RewardsPreview /> */}
-              <RewardsTable rewards={data} cover={cover} />
-            </div>
-            <div className={styles.bottomNavigation}>
-              <div className={styles.bottomNavigationOuter}>
-                  <NavLink to={"/event"}>Discard</NavLink>
-                  <button className={styles.button} onClick={() => handleChangePage(step)}><span>Submit</span></button>
+          </div>
+          : 
+          step == 2
+          ?
+          <div id="third-step">
+              <div className={styles.header}>
+                <a onClick={() => setStep(step - 1)}>Previous</a>
+                <h1>Rewards</h1>
               </div>
-            </div>
+              <div className={styles.body}>
+                  <h3>Reward Details</h3>
+                  <p>Select the type of rewards your attendees will receive.</p>
+                  <div className={styles.form}>
+                    <SelectInput error={error} getType={handleChangeType} label={"Reward Type"} />
+                  </div>
+                  <h3>Number of Giveaways</h3>
+                  <p>Set the limit of how many prizes are to be given out to attendees.</p>
+                  {type == "NFT" 
+                  ? <DefaultInput error={error} disable={true} onChangeValue={handleChangeLimit} forceValue={type} placeholder="1" label="Giveaway amount *"/> 
+                  : <DefaultInput error={error} onChangeValue={handleChangeLimit} forceValue={type} placeholder="Enter quantity" label="Giveaway amount *"/>}
+                  
+                  {type == "NFT" || type == "FNFT" ? <Wallet onChangeValue={handleChangeNFT} type={type} /> : 
+                  <div className={styles.promo}>
+                    <h3>Links</h3>
+                    <DefaultInput error={error} onChangeValue={handleChangeRewardUrl} placeholder="Enter URL" label="Reward Download URL *" />
+                    <DefaultInput error={error} onChangeValue={handleChangeWebsiteUrl} placeholder="Enter URL" label="Website URL *"/>
+
+                    <h3>Upload Cover Artwork</h3>
+                    <p>This image will appear next to your listing. Use a high quality image 
+                      (size x size). required *</p>
+                    <FileUplod dataFromFileDrop={handleChangeCoverImage}/>
+
+                    <DefaultInput error={error} onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/>
+                  </div>}
+                  
+                  {type == "NFT" || type == "FNFT" ? <DefaultInput error={error} onChangeValue={handleGiveawayDescription} type={"description"} placeholder="Write a brief description about this reward." label="Giveaway Description (Optional)"/> : "" }
+
+                  <div className={styles.bottomNavigation}>
+                  <div className={styles.bottomNavigationOuter}>
+                      <NavLink to={"/event"}>Discard</NavLink>
+                      <button className={styles.button} onClick={() => handleChangePage(step)}><span>Next</span></button>
+                  </div>
+                </div>
+              </div>
+          </div>
+          : 
+          step == 3
+          ? 
+          <div id="fourth-step">
+              <div className={styles.header}>
+                <a onClick={() => setStep(step - 1)}>Previous</a>
+                <h1 style={{marginBottom: "48px", marginTop: "24px"}}>Review & Publish</h1>
+              </div>
+              <div className={styles.bodyRewards}>
+                <RewardsPreviewCard data={data} image={eventImage} />
+                <h3 style={{marginTop: "48px"}}>Rewards</h3>
+                {/* <RewardsPreview /> */}
+                <RewardsTable rewards={data} cover={data.detail.image} />
+              </div>
+              <div className={styles.bottomNavigation}>
+                <div className={styles.bottomNavigationOuter}>
+                    <NavLink to={"/event"}>Discard</NavLink>
+                    <button className={styles.button} onClick={() => handleChangePage(step)}><span>Submit</span></button>
+                </div>
+              </div>
+          </div>
+          : step == 4 
+          ?
+          <EventSuccess />
+          : 
+            step == 5
+          ?
+          <EventFailed />
+          :
+          ""
+          }
         </div>
-        : step == 4 
-        ?
-         <EventSuccess />
-        : 
-        ""
-        }
-      </div>
     </div>
   )
 }

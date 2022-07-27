@@ -8,6 +8,7 @@ import { isEmail } from "validator";
 import Google from '../components/button/google/googleRegister.js'
 import { register } from "../actions/auth";
 import styles from './styles/register.module.scss'
+import MetaMaskAuth from "../components/button/metamask/MetaMaskAuth.js";
 
 const required = (value) => {
   if (!value) {
@@ -29,15 +30,15 @@ const validEmail = (value) => {
   }
 };
 
-const vusername = (value) => {
-  if (value.length < 3 || value.length > 20) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The username must be between 3 and 20 characters.
-      </div>
-    );
-  }
-};
+// const vusername = (value) => {
+//   if (value.length < 3 || value.length > 20) {
+//     return (
+//       <div className="alert alert-danger" role="alert">
+//         The username must be between 3 and 20 characters.
+//       </div>
+//     );
+//   }
+// };
 
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
@@ -57,7 +58,7 @@ const Register = () => {
   const { isLoggedIn } = useSelector(state => state.auth);
 
   const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
@@ -66,10 +67,10 @@ const Register = () => {
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
 
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
-  };
+  // const onChangeUsername = (e) => {
+  //   const username = e.target.value;
+  //   setUsername(username);
+  // };
 
   const onChangeWalletAddress = (e) => {
     const walletAddress = e.target.value;
@@ -91,6 +92,7 @@ const Register = () => {
   };
 
   const handleRegister = (e) => {
+    setLoading(true);
     e.preventDefault();
 
     setSuccessful(false);
@@ -98,11 +100,13 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(fullName, username, email, password, "mod", walletAddress))
+      dispatch(register(fullName, email, password, "mod", walletAddress))
         .then(() => {
+          setLoading(false);
           setSuccessful(true);
         })
         .catch(() => {
+          setLoading(false);
           setSuccessful(false);
         });
     }
@@ -114,22 +118,28 @@ const Register = () => {
 
   return (
     <div className={styles.login}>
-      <img className={styles.logo} src={require('../images/logowname.png')} />
+      <h3 className={styles.registerHeader}>Sign Up</h3>
+      {/* <img className={styles.logo} src={require('../images/logowname.png')} /> */}
       <div className={styles.loginOuter}>
+
+      {!message && (<div className={styles.headerRegister}>
+        <Google />
+        {/* <MetaMaskAuth text="up" /> */}
+      </div>)}
       <Form onSubmit={handleRegister} ref={form} className="form">
           {!successful && (
             <div>
               <div className="form-group">
-                <label htmlFor="username">Full Name</label>
+                <label htmlFor="username">Full Name or Company</label>
                 <Input
                   type="text"
                   className="form-control"
-                  name="username"
+                  name="fullName"
                   value={fullName}
                   onChange={onChangeFullName}
                 />
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <Input
                   type="text"
@@ -139,7 +149,7 @@ const Register = () => {
                   onChange={onChangeUsername}
                   validations={[required, vusername]}
                 />
-              </div>
+              </div> */}
 
               <div className="form-group">
                 <label htmlFor="email">Email</label>
@@ -166,7 +176,7 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="email">Wallet Address</label>
+                <label htmlFor="email">Wallet Address (Optional)</label>
                 <Input
                   type="text"
                   className="form-control"
@@ -177,12 +187,11 @@ const Register = () => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-dark btn-block">Sign Up</button>
+                <button className="btn btn-dark btn-block">Sign Up {loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}</button>
               </div>
 
-              <div className="form-group">
-                <Google />
-              </div>
 
               <div className="form-group">
                 <NavLink to={"/login"} >Sign in</NavLink>
@@ -196,7 +205,7 @@ const Register = () => {
                 {message}
               </div>
               <div className="form-group">
-                <NavLink to="/login" className="btn btn-block" style={{background: "white", borderRadius: "3px", color: "black", }}>Sign In</NavLink>
+                <NavLink to="/login" className="btn btn-block" style={{background: "white", borderRadius: "3px", color: "black", padding: 0, height: "100%", display: "flex", justifyContent:"center", alignItems:"center"}}>Sign In</NavLink>
               </div>
             </div>
           )}

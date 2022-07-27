@@ -22,16 +22,15 @@ import EventFailed from "./pages/EventStatus/EventFailed";
 import Wallet from "./pages/Wallet";
 import Status from "./pages/Status";
 import Setting from "./pages/Setting";
-
+import { getOwnEventPoint } from "./actions/point";
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   // if(currentUser)
-  //     // dispatch(getPoint())
-  //     // dispatch(getNFTPoint())
-  // }, [currentUser]);
+  useEffect(() => {
+    if(currentUser) dispatch(getOwnEventPoint(currentUser.fullName))
+      // dispatch(getNFTPoint())
+  }, [dispatch]);
 
   return (
     <Router history={history}>
@@ -50,7 +49,7 @@ const App = () => {
             <Route exact path='/wallet' component={Wallet} />
             <Route exact path='/event-action' component={Status} />
             <Route exact path='/setting' component={Setting} />
-            <Route exact path='/reset' component={Reset} />
+            <Route exact path='/reset/:id' component={Reset} />
             <Route exact path='/forget' component={Forget} />
             <Route exact path='/forget-success' component={ForgetSuccess} />
           </Switch>

@@ -1,0 +1,43 @@
+.marker{
+    position: absolute;
+    right: 32px;
+    top: 86px;
+    background-color: white;
+    min-height: 48px;
+    width: auto;
+    padding: 24px 32px;
+
+    display: flex;
+    flex-direction: row;
+    margin-left: 96px;
+
+    border-radius: 12px;
+}
+
+.markerImage{
+    width: 120px;
+    height: 120px;
+    img{
+        width: 120px;
+        height: 120px;
+    }
+}
+
+.markerBody{
+    margin-left: 12px;
+    p{
+        span{
+            border: 1px solid black;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+    }
+}
+
+.markerCloseButton{
+    img{
+        width: 24px;
+        height: 24px;
+        margin-bottom: 0;
+    }
+}

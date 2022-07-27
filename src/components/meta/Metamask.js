@@ -12,14 +12,18 @@ const Metamask = ({ onChangeHandler }) => {
 
   let eth;
 
-  if (typeof window !== 'undefined'){
+  if (window){
     eth = window.ethereum
-  }
 
-  window.ethereum.on('accountsChanged', async (metamask = eth) => {
+    window.ethereum.on('accountsChanged', async (metamask = eth) => {
       setUserAccount(metamask[0])
       onChangeHandler(metamask[0])
   });
+  }else{
+    alert("Please install metamask extension!")
+  }
+
+
 
   const connectWallet =  async (metamask = eth)=>{
     try {

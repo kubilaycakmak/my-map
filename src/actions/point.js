@@ -111,8 +111,8 @@ export const getPoint = () => (dispatch) => {
     );
 };
 
-export const getOwnEventPoint = (username) => (dispatch) => {
-    return PointService.getOwnEventPoint(username).then(
+export const getOwnEventPoint = (username) => async (dispatch) => {
+    return await PointService.getOwnEventPoint(username).then(
         (data) => {
         dispatch({
             type: POINT_GET_OWN_SUCCESS,

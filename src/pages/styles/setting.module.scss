@@ -13,4 +13,39 @@
 .settingPageBody{
     width: 100%;
     padding: 80px 148px 0 86px;
+    h3{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 48px;
+        line-height: 72px;
+        display: flex;
+        align-items: center;
+        color: #3C3C3C;
+    }
+    p{
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #686868;
+    }
+    .settingAvatar{
+        width: 120px;
+        height: 120px;
+        margin-top: 64px;
+        margin-bottom: 48px;
+        img{
+            width: 120px !important;
+            height: 120px !important;
+            background-size: contain !important;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 9px 0.2px #0ff;
+        }
+    }
+
+
 }

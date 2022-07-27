@@ -13,6 +13,22 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    border: 0 !important;
+    box-shadow: 0 !important;
+    &:hover{
+        border: 0 !important;
+    }
+    &:active{
+        border: 0 !important;
+    }
+    &:focus{
+        box-shadow: none;
+        border: 0 !important;
+    }
+    &:active{
+        box-shadow: none;
+        border: 0 !important;
+    }
 }
 
 .avatar{

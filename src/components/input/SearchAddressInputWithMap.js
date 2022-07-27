@@ -11,6 +11,7 @@ const SearchAddressInputWithMap = ({label = "Venue Address *", getAddress, getLa
     const count = 1;
     let markers = [];
     let map = useRef(null);
+    let geolocate = null;
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
     const [address, setAddress] = useState();
@@ -76,6 +77,18 @@ const SearchAddressInputWithMap = ({label = "Venue Address *", getAddress, getLa
                 markers = []
             }
         });
+
+        geolocate = new mapboxgl.GeolocateControl({
+            positionOptions: {
+            enableHighAccuracy: true
+            },
+            trackUserLocation: true
+          }); 
+          map.addControl(geolocate);
+          
+          map.on('load', () => {
+            geolocate.trigger();
+        })
         
         map.addControl(geocoder);
         geocoder.onAdd(map);
@@ -102,12 +115,18 @@ const SearchAddressInputWithMap = ({label = "Venue Address *", getAddress, getLa
         });
     }, [])
 
+    const findLocation = () => {
+        geolocate.trigger();
+    }
+
     
   return (
     <div className="geocoder-outer">
         <label style={error.includes(label) ? {color: "red"} : {color: "#3C3C3C"}}>{label}</label>
         <div id="geocoder"></div>
-        <div id="map"></div>
+        <div id="map">
+        <button className="findMe" onClick={() => findLocation()}><img src={require("../locate.png")}/></button>
+        </div>
     </div>
   )
 }

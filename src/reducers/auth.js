@@ -75,7 +75,8 @@ import {
         };
       case AUTH_FAIL:
         if(user){
-          store.dispatch(refreshAuth(user.refreshToken));
+          localStorage.removeItem("user");
+          // store.dispatch(refreshAuth(user.refreshToken));
         }
       case AUTH_SUCCESS:
         console.log('auth_success');

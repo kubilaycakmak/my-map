@@ -2,13 +2,13 @@ import moment from 'moment';
 import React, { useEffect } from 'react'
 import styles from "./styles/rewardpreviewcard.module.scss"
 const RewardsPreviewCard = ({ data, image }) => {
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [])
+  useEffect(() => {
+    console.log(data);
+  }, [])
   
   return (
     <div className={styles.rewardCard}>
-        <img className={styles.rewardCardImage} src={image !== undefined ? image.preview : require("./defaultImage.jpg")}/>
+        <img className={styles.rewardCardImage} src={image ? image.preview : require("./defaultImage.jpg")}/>
         <div className={styles.rewardCardBody}>
             <div className={styles.rewardCardBodyInformation}>
                 <h4>{data.startDateTS ? moment.unix(data.startDateTS).format("LLLL") : ""}</h4>
