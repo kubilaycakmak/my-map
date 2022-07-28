@@ -18,6 +18,7 @@ const Nav = (props) => {
     const dispatch = useDispatch();
   
     useEffect(() => {
+      console.log(currentUser);
       history.listen((location) => {
         dispatch(clearMessage()); // clear message when changing location
       });

@@ -18,7 +18,7 @@ const login = (email, password) => {
     })
     .then((response) => {
       let user = response.data.user;
-
+      console.log(user);
       if (response.data.accessToken) {
         user.accessToken = response.data.accessToken;
         user.refreshToken = response.data.refreshToken;

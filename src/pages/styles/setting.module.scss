@@ -36,8 +36,8 @@
     .settingAvatar{
         width: 120px;
         height: 120px;
-        margin-top: 64px;
-        margin-bottom: 48px;
+        margin-top: 32px;
+        margin-bottom: 84px;
         img{
             width: 120px !important;
             height: 120px !important;
@@ -46,6 +46,54 @@
             box-shadow: 0 0 9px 0.2px #0ff;
         }
     }
+    button{
+        border: none;
+        width: 100%;
+        height: 48px;
+    }
+}
 
-
+@media only screen and (max-width: 768px) {
+    .settingPageBody{
+        width: 100%;
+        padding: 64px 32px 0 48px;
+        h3{
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 48px;
+            line-height: 72px;
+            display: flex;
+            align-items: center;
+            color: #3C3C3C;
+        }
+        p{
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            display: flex;
+            align-items: center;
+            color: #686868;
+        }
+        .settingAvatar{
+            width: 120px;
+            height: 120px;
+            margin-top: 32px;
+            margin-bottom: 84px;
+            img{
+                width: 120px !important;
+                height: 120px !important;
+                background-size: contain !important;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0 9px 0.2px #0ff;
+            }
+        }
+        button{
+            border: none;
+            width: 100%;
+            height: 48px;
+        }
+    }
 }

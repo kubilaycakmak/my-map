@@ -6,7 +6,7 @@ import { logout } from "../../../actions/auth";
 import { useHistory } from "react-router";
 import './Avatar.scss'
 
-function Avatar({ fullName }) {
+function Avatar({ fullName, avatar = null }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ function Avatar({ fullName }) {
     <Dropdown>
       <Dropdown.Toggle variant="success" id="dropdown-basic">
         <div className='avatar'>
-            <img className="avatar-img" src={require('./avatar.jpg')}/>
+            <img className="avatar-img" src={avatar ? avatar : require('./avatar.jpg')}/>
         </div>
         <div className='avatar-name'>{ fullName }</div>
       </Dropdown.Toggle>
